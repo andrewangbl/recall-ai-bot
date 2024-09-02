@@ -1,6 +1,6 @@
-from tiktokvoice import tts, get_duration, merge_audio_files
-from srt import gen_srt_file
-from editor import VideoEditor
+from autoeditor.tts import tts, get_duration, merge_audio_files
+from autoeditor.srt import gen_srt_file
+from autoeditor.editor import VideoEditor
 import subprocess
 import os
 import re

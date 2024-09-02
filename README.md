@@ -79,3 +79,7 @@ https://github.com/Krishpkreame/RSCG/assets/79666419/79b46267-d5d1-4330-ba3f-f19
 
 - Contributions and feature enhancements are welcome. Please fork this repository, make your changes, and submit a pull request with a detailed description of the proposed changes.
 # recall-ai-bot
+
+# Notes:
+
+Yes, you can deploy this project to AWS and still use the OS package, as well as upload and use source videos. However, you'll need to make some adjustments to your setup and code. Here's how you can approach this:

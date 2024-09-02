@@ -1,5 +1,5 @@
 from moviepy.video.tools.subtitles import SubtitlesClip
-from moviepy.editor import VideoFileClip, TextClip, CompositeVideoClip, AudioFileClip
+from moviepy.editor import VideoFileClip, TextClip, CompositeVideoClip, AudioFileClip, concatenate_videoclips, vfx
 import random
 import math
 import os
@@ -41,6 +41,7 @@ class VideoEditor:
         self.bg_path = random.choice(self.bg_path)
         self.background_video = VideoFileClip(
             os.path.join("inputs", self.bg_path))
+        self.background_video = self.crop_and_resize_video()
 
         # Default vertical position (70% from top)
         self.y_position = 0.5
@@ -57,17 +58,17 @@ class VideoEditor:
         """
         # Determine font size based on text length
         if len(txt) > 100:
-            fontsize = 24
+            fontsize = 54
         elif len(txt) > 50:
-            fontsize = 28
+            fontsize = 60
         else:
-            fontsize = 32
+            fontsize = 66
 
         return TextClip(
             txt,
             font='Arial-Bold', fontsize=fontsize,
-            stroke_color='black', stroke_width=0.75,
-            color='white', method='caption', size=(350, None),
+            stroke_color='black', stroke_width=2.5,
+            color='white', method='caption', size=(850, None),
             align='center'
         )
 
@@ -157,3 +158,25 @@ class VideoEditor:
             output_path, fps=60, codec="libx264", bitrate="8000k"
         )
         print("Video rendered successfully!")
+
+    def crop_and_resize_video(self, target_aspect_ratio=9/16, target_width=1080):
+        # Get the current video dimensions
+        current_width, current_height = self.background_video.w, self.background_video.h
+        current_aspect_ratio = current_width / current_height
+
+        if current_aspect_ratio > target_aspect_ratio:
+            # Video is too wide, crop the sides
+            new_width = int(current_height * target_aspect_ratio)
+            crop_amount = (current_width - new_width) // 2
+            cropped = self.background_video.crop(x1=crop_amount, x2=current_width-crop_amount)
+        else:
+            # Video is too tall, crop the top and bottom
+            new_height = int(current_width / target_aspect_ratio)
+            crop_amount = (current_height - new_height) // 2
+            cropped = self.background_video.crop(y1=crop_amount, y2=current_height-crop_amount)
+
+        # Resize the cropped video to the target width
+        target_height = int(target_width / target_aspect_ratio)
+        resized = cropped.resize(width=target_width, height=target_height)
+
+        return resized
