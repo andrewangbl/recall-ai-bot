@@ -1,12 +1,12 @@
 from moviepy.video.tools.subtitles import SubtitlesClip
-from moviepy.editor import VideoFileClip, TextClip, CompositeVideoClip, AudioFileClip, concatenate_videoclips, vfx
+from moviepy.editor import VideoFileClip, TextClip, CompositeVideoClip, AudioFileClip, concatenate_videoclips, vfx, ImageClip
 import random
 import math
 import os
 
 
 class VideoEditor:
-    def __init__(self, clip_duration, srt_path, wav_path, animate_text=True, clip_generation_mode="normal"):
+    def __init__(self, clip_duration, srt_path, wav_path, animate_text=True, clip_generation_mode="normal", part_number=1):
         """
         Initialize the Editor object.
 
@@ -39,6 +39,8 @@ class VideoEditor:
 
         # Default vertical position (70% from top)
         self.y_position = 0.5
+        self.cover_img_url = None
+        self.part_number = part_number
 
     def __text_generator(self, txt):
         """
@@ -87,6 +89,12 @@ class VideoEditor:
         """
         self.y_position = position
 
+    def create_part_subtitle(self):
+        part_text = f"Part {self.part_number}"
+        part_clip = TextClip(part_text, fontsize=100, color='white', font='Arial-Bold', stroke_color='black', stroke_width=3)
+        part_clip = part_clip.set_position(('center', 0.1), relative=True).set_duration(5)  # Increased duration to 5 seconds
+        return part_clip
+
     def start_render(self, output_path="outputs/output.mp4"):
         """
         Starts the rendering process by creating a video clip with subtitles.
@@ -131,7 +139,7 @@ class VideoEditor:
 
         try:
             self.subtitles = SubtitlesClip(self.srt_path, self.__text_generator)
-            self.subtitles = self.subtitles.set_position(('center', self.y_position), relative=True)
+            self.subtitles = self.subtitles.set_position(('center', 0.8), relative=True)
 
             # Trim the subtitles to match the video duration
             self.subtitles = self.subtitles.set_duration(self.rendered_video.duration)
@@ -139,10 +147,31 @@ class VideoEditor:
             print(f"Error initializing SubtitlesClip: {e}")
             return
 
-        # Combine the video and the subtitles
-        self.result = CompositeVideoClip(
-            [self.rendered_video, self.subtitles]
-        )
+        # Process cover image
+        if self.cover_img_url:
+            try:
+                cover_img = ImageClip(self.cover_img_url)
+                cover_img = cover_img.resize(height=500)  # Increase height to 600
+                cover_img = cover_img.set_position(('center', 0.2), relative=True)  # Move higher to 20% from top
+                cover_img = cover_img.set_duration(self.rendered_video.duration)
+            except Exception as e:
+                print(f"Error processing cover image: {e}")
+                cover_img = None
+        else:
+            cover_img = None
+
+        # Move subtitles higher
+        self.subtitles = self.subtitles.set_position(('center', 0.5), relative=True)  # Move to 50% from top (middle)
+
+        # Create part subtitle
+        part_subtitle = self.create_part_subtitle()
+
+        # Combine the video, subtitles, cover image, and part subtitle
+        clips_to_combine = [self.rendered_video, self.subtitles, part_subtitle]
+        if cover_img:
+            clips_to_combine.append(cover_img)
+
+        self.result = CompositeVideoClip(clips_to_combine)
 
         # Set the duration of the final clip to match the rendered video
         self.result = self.result.set_duration(self.rendered_video.duration)
