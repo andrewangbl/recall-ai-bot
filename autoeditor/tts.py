@@ -9,6 +9,7 @@
 import os
 from pydub import AudioSegment
 import re
+import random
 
 import threading
 import requests
@@ -18,12 +19,12 @@ import base64
 COUNT = 0
 VOICES = [
     # DISNEY VOICES
-    'en_us_ghostface',            # Ghost Face
-    'en_us_chewbacca',            # Chewbacca
-    'en_us_c3po',                 # C3PO
-    'en_us_stitch',               # Stitch
-    'en_us_stormtrooper',         # Stormtrooper
-    'en_us_rocket',               # Rocket
+    # 'en_us_ghostface',            # Ghost Face
+    # 'en_us_chewbacca',            # Chewbacca
+    # 'en_us_c3po',                 # C3PO
+    # 'en_us_stitch',               # Stitch
+    # 'en_us_stormtrooper',         # Stormtrooper
+    # 'en_us_rocket',               # Rocket
 
     # ENGLISH VOICES
     'en_au_001',                  # English AU - Female
@@ -38,10 +39,10 @@ VOICES = [
     'en_us_010',                  # English US - Male 4
 
     # SINGING VOICES
-    'en_female_f08_salut_damour',  # Alto
-    'en_male_m03_lobby',           # Tenor
-    'en_female_f08_warmy_breeze',  # Warmy Breeze
-    'en_male_m03_sunshine_soon',   # Sunshine Soon
+    # 'en_female_f08_salut_damour',  # Alto
+    # 'en_male_m03_lobby',           # Tenor
+    # 'en_female_f08_warmy_breeze',  # Warmy Breeze
+    # 'en_male_m03_sunshine_soon',   # Sunshine Soon
 
     # OTHER
     'en_male_narration',           # narrator
@@ -265,3 +266,6 @@ def merge_audio_files(output_file: str, delay: float = 0.1) -> float:
 
     # Return the duration of the merged audio in seconds
     return len(merged_audio) / 1000
+
+def get_random_voice():
+    return random.choice(VOICES)

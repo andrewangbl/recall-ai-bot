@@ -6,7 +6,7 @@ import os
 
 
 class VideoEditor:
-    def __init__(self, clip_duration, srt_path, wav_path, animate_text=True):
+    def __init__(self, clip_duration, srt_path, wav_path, animate_text=True, clip_generation_mode="normal"):
         """
         Initialize the Editor object.
 
@@ -15,14 +15,8 @@ class VideoEditor:
             clip_duration (int): The duration of the video clip in seconds.
             srt_path (str): The path to the SRT file.
             wav_path (str): The path to the WAV file.
-
-        Attributes:
-            reddit_id (str): The ID of the Reddit post.
-            clip_duration (int): The duration of the video clip in seconds.
-            srt_path (str): The path to the SRT file.
-            wav_path (str): The path to the WAV file.
-            bg_path (list): A list of background video paths.
-            background_video (VideoFileClip): The background video clip.
+            animate_text (bool): Whether to animate the text or not.
+            clip_generation_mode (str): The mode for generating video clips.
         """
         # The Y coordinate of the text.
         self.y_cord = 1080
@@ -33,12 +27,12 @@ class VideoEditor:
         # The path to the WAV and SRT file.
         self.srt_path = srt_path
         self.wav_path = wav_path
-
+        # The mode for generating video clips.
+        self.clip_generation_mode = clip_generation_mode
         # A list of background videos
-        self.bg_path = [
-            f for f in os.listdir("inputs") if f.endswith('.mp4')]
+        self.bg_videos = [f for f in os.listdir("inputs") if f.endswith('.mp4')]
         # Randomly select a background video to use later
-        self.bg_path = random.choice(self.bg_path)
+        self.bg_path = random.choice(self.bg_videos)
         self.background_video = VideoFileClip(
             os.path.join("inputs", self.bg_path))
         self.background_video = self.crop_and_resize_video()
@@ -104,30 +98,30 @@ class VideoEditor:
             None
         """
         print("Rendering video...")
-        # The maximum time to start the video clip from. (Otherwise the clip will cut to black)
-        self.upperlimit_time = (
-            self.background_video.duration -
-            math.ceil(10 * self.clip_duration) / 10
-        )
 
-        # Randomly select a start time for the video clip
-        self.start_time = random.randint(0, math.floor(self.upperlimit_time))
-        print(
-            f"Start time: {self.start_time} seconds |",
-            f"End time: {self.start_time + self.clip_duration} seconds"
-        )
+        if self.clip_generation_mode == "normal":
+            self.upperlimit_time = (
+                self.background_video.duration -
+                math.ceil(10 * self.clip_duration) / 10
+            )
+            self.start_time = random.randint(0, math.floor(self.upperlimit_time))
+            print(
+                f"Start time: {self.start_time} seconds |",
+                f"End time: {self.start_time + self.clip_duration} seconds"
+            )
+            self.rendered_video = self.background_video.subclip(
+                self.start_time,
+                self.start_time + self.clip_duration
+            )
+        elif self.clip_generation_mode == "combine":
+            self.rendered_video = self.combine_video_clips()
+        else:
+            raise ValueError("Invalid clip generation mode")
 
-        # Clip the video from the start time to the desired endtime
-        self.rendered_video = self.background_video.subclip(
-            self.start_time,
-            self.start_time + self.clip_duration
-        )
-        # Set the FPS to 60
-        self.rendered_video = self.rendered_video.set_fps(60)
-        # Set the audio of the video using the WAV file
         self.rendered_video = self.rendered_video.set_audio(
             AudioFileClip(self.wav_path)
         )
+
         print("Adding subtitles...")
 
         # Debug print to check subtitles content
@@ -155,28 +149,65 @@ class VideoEditor:
 
         # Save the video to the outputs folder
         self.result.write_videofile(
-            output_path, fps=60, codec="libx264", bitrate="8000k"
+            output_path, fps=30, codec="libx264", bitrate="4000k",
+            preset='faster', threads=4
         )
         print("Video rendered successfully!")
 
-    def crop_and_resize_video(self, target_aspect_ratio=9/16, target_width=1080):
+    def crop_and_resize_video(self, video_clip=None, target_aspect_ratio=9/16, target_width=1080):
+        if video_clip is None:
+            video_clip = self.background_video
+
         # Get the current video dimensions
-        current_width, current_height = self.background_video.w, self.background_video.h
+        current_width, current_height = video_clip.w, video_clip.h
         current_aspect_ratio = current_width / current_height
 
         if current_aspect_ratio > target_aspect_ratio:
             # Video is too wide, crop the sides
             new_width = int(current_height * target_aspect_ratio)
             crop_amount = (current_width - new_width) // 2
-            cropped = self.background_video.crop(x1=crop_amount, x2=current_width-crop_amount)
+            cropped = video_clip.crop(x1=crop_amount, x2=current_width-crop_amount)
         else:
             # Video is too tall, crop the top and bottom
             new_height = int(current_width / target_aspect_ratio)
             crop_amount = (current_height - new_height) // 2
-            cropped = self.background_video.crop(y1=crop_amount, y2=current_height-crop_amount)
+            cropped = video_clip.crop(y1=crop_amount, y2=current_height-crop_amount)
 
         # Resize the cropped video to the target width
         target_height = int(target_width / target_aspect_ratio)
         resized = cropped.resize(width=target_width, height=target_height)
 
         return resized
+
+    def combine_video_clips(self):
+        combined_clip = None
+        total_duration = 0
+        fade_duration = 0.5  # Duration of the fade effect in seconds
+
+        while total_duration < self.clip_duration:
+            if not self.bg_videos:
+                raise ValueError("Not enough background videos to cover the audio duration")
+
+            next_clip_path = random.choice(self.bg_videos)
+            self.bg_videos.remove(next_clip_path)
+            next_clip = VideoFileClip(os.path.join("inputs", next_clip_path))
+            next_clip = self.crop_and_resize_video(next_clip)
+
+            if combined_clip is None:
+                combined_clip = next_clip
+            else:
+                # Add fade out to the end of the current clip
+                combined_clip = combined_clip.fx(vfx.fadeout, duration=fade_duration)
+
+                # Add fade in to the start of the next clip
+                next_clip = next_clip.fx(vfx.fadein, duration=fade_duration)
+
+                # Concatenate the clips
+                combined_clip = concatenate_videoclips([combined_clip, next_clip], method="compose")
+
+            total_duration = combined_clip.duration
+
+        if total_duration > self.clip_duration:
+            combined_clip = combined_clip.subclip(0, self.clip_duration)
+
+        return combined_clip
