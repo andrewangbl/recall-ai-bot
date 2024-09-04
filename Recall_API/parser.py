@@ -40,18 +40,15 @@ def parse_recall_summary(summary, video_url):
 
     return structured_summary
 
-# Read the raw data from file
-input_file = "raw_recall_data.json"
-with open(input_file, "r", encoding="utf-8") as f:
-    raw_data = json.load(f)
+def parse_from_file(input_file, video_url):
+    with open(input_file, "r", encoding="utf-8") as f:
+        raw_data = json.load(f)
 
-# Process the data
-video_url = "https://www.youtube.com/watch?v=LEx2_zLobrM"  # You might want to store this in the raw data file as well
-structured_summary = parse_recall_summary(raw_data, video_url)
+    structured_summary = parse_recall_summary(raw_data, video_url)
 
-# Output the structured summary to a file
-output_file = "structured_summary.json"
-with open(output_file, "w", encoding="utf-8") as f:
-    json.dump(structured_summary, f, ensure_ascii=False, indent=2)
+    output_file = "structured_summary.json"
+    with open(output_file, "w", encoding="utf-8") as f:
+        json.dump(structured_summary, f, ensure_ascii=False, indent=2)
 
-print(f"Structured summary saved to {output_file}")
+    print(f"Structured summary saved to {output_file}")
+    return structured_summary

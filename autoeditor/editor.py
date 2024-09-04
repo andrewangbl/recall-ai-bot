@@ -3,6 +3,7 @@ from moviepy.editor import VideoFileClip, TextClip, CompositeVideoClip, AudioFil
 import random
 import math
 import os
+import multiprocessing
 
 
 class VideoEditor:

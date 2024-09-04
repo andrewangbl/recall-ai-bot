@@ -38,15 +38,15 @@ def generate_enhanced_summary(structured_summary):
     prompt = f"""
     Enhance the following structured summary of a video into an engaging Instagram Reel script and caption.
     For the script:
-    1. At the beginning, mention the original Youtube video is summarized by Recall AI.
-    2. Maintain the key points from the original summary.
-    3. Add transitions and context between points for a smoother narrative flow.
-    4. Aim for short, impactful sentences suitable for a Reel.
-    5. Ensure the narrative builds tension and interest throughout.
+    1. Start by mentioning the original YouTube video's title: "{structured_summary.get('title', 'Untitled Video')}" Then, mention that this video is summarized by Recall.
+    2. Add transitions and context between key points for a smoother narrative flow.
+    3. Aim for short, impactful sentences suitable for Instagram Reel.
+    4. Do not include questions in the script, as AI voice cannot read them with proper intonation.
+    5. Avoid using parentheses for explanations, as AI will read the text within them verbatim.
 
     For the caption:
     1. Pose a question or make a statement that captures the main theme of the video. Introduce the key topics covered in the video in one sentence
-    2. Mention Recall AI and its official website https://www.getrecall.ai/. Invite users to check out the original video and use Recall AI for the FULL summaries.
+    2. Mention Recall and its official website https://www.getrecall.ai/. Invite users to check out the original video and use Recall's AI tool for the FULL summaries.
     3. Include the original YouTube video URL: {structured_summary.get('video_url', '')}.
     4. Select at least 5 relevant hashtags from the "tags" field provided in the structured summary, and include #RecallAI as one of the hashtags.
 
@@ -59,7 +59,7 @@ def generate_enhanced_summary(structured_summary):
         response = client.chat.completions.create(
             model="gpt-4",
             messages=[
-                {"role": "system", "content": "You are an expert storyteller and Instagram Reels content creator for promoting a company called Recall AI. Recall AI's software product is for generating summaries of Youtube videos and podcasts."},
+                {"role": "system", "content": "You are an expert storyteller and Instagram Reels content creator for promoting a company called Recall. Recall's product is for quickly summarizing Youtube videos and podcasts."},
                 {"role": "user", "content": prompt}
             ],
             functions=functions,
@@ -89,16 +89,25 @@ def main():
     structured_summary = load_structured_summary(input_file)
     enhanced_summary = generate_enhanced_summary(structured_summary)
 
+    # Check if the initial attempt to generate an enhanced summary failed
     if enhanced_summary is None:
         print("Retrying with a simplified prompt...")
+
+        # Create a simplified version of the summary
         simplified_summary = {
             "cover": structured_summary["cover"],
             "tags": structured_summary["tags"],
-            "summary": {k: v[:3] for k, v in structured_summary["summary"].items()},  # Limit to first 3 items per section
+            # Limit each section of the summary to its first 3 items
+            # This creates a shorter, more concise version of the summary
+            "summary": {k: v[:3] for k, v in structured_summary["summary"].items()},
             "video_url": structured_summary.get("video_url", "")
         }
+
+        # Attempt to generate an enhanced summary again using the simplified version
         enhanced_summary = generate_enhanced_summary(simplified_summary)
 
+    # Check if the enhanced summary was successfully generated
+    # (either on the first attempt or with the simplified version)
     if enhanced_summary:
         save_enhanced_summary(enhanced_summary, output_file)
         print(f"Enhanced summary for Instagram Reel saved to {output_file}")

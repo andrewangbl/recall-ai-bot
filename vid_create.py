@@ -29,16 +29,20 @@ def split_script(script, char_limit=1300):
 
     if current_part:
         remaining_chars = sum(len(s) for s in current_part)
-        if 1300 < remaining_chars < 2600:
-            mid_index = len(current_part) // 2
-            mid_char_count = sum(len(s) for s in current_part[:mid_index])
+        if char_limit < remaining_chars < 2 * char_limit:
+            total_chars = remaining_chars
+            mid_char_count = total_chars // 2
+            current_count = 0
+            split_index = 0
 
-            while mid_index < len(current_part) - 1 and mid_char_count < remaining_chars // 2:
-                mid_index += 1
-                mid_char_count += len(current_part[mid_index])
+            for i, sentence in enumerate(current_part):
+                current_count += len(sentence)
+                if current_count > mid_char_count:
+                    split_index = i
+                    break
 
-            parts.append(current_part[:mid_index])
-            parts.append(current_part[mid_index:])
+            parts.append(current_part[:split_index])
+            parts.append(current_part[split_index:])
         else:
             parts.append(current_part)
 
@@ -59,7 +63,7 @@ if __name__ == "__main__":
         print("No input video files found in the inputs folder. Add your input video files to this folder.")
         exit(1)
 
-    script_file_path = "inputs/enhanced_summary.json"
+    script_file_path = "enhanced_summary.json"
 
     # Check if the enhanced_summary.json file exists
     if not os.path.exists(script_file_path):

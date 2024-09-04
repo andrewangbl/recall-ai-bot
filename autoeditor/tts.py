@@ -32,11 +32,11 @@ VOICES = [
     'en_uk_001',                  # English UK - Male 1
     'en_uk_003',                  # English UK - Male 2
     # 'en_us_001',                  # English US - Female (Int. 1)
-    'en_us_002',                  # English US - Female (Int. 2)
+    # 'en_us_002',                  # English US - Female (Int. 2)
     # 'en_us_006',                  # English US - Male 1
     'en_us_007',                  # English US - Male 2
     'en_us_009',                  # English US - Male 3
-    'en_us_010',                  # English US - Male 4
+    # 'en_us_010',                  # English US - Male 4
 
     # SINGING VOICES
     # 'en_female_f08_salut_damour',  # Alto
