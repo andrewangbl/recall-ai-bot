@@ -148,27 +148,15 @@ async def process_and_generate_video(video_url, bucket_name, clip_generation_mod
 
 # Main entry point of the script
 async def main():
-<<<<<<< HEAD
     # channel_ids = []
     # with open('monitor/monitor_list.txt', 'r') as file:
     #     channel_ids = [line.split(',')[1].strip() for line in file if line.strip()]
 
     # top_video_urls = await get_top_videos(channel_ids)
     top_video_urls =['fake_url']
-=======
-    channel_ids = []
-    with open('monitor/monitor_list.txt', 'r') as file:
-        channel_ids = [line.split(',')[1].strip() for line in file if line.strip()]
-    '''
-    top_video_urls = await get_top_videos(channel_ids)
-    '''
-    top_video_urls = ["https://www.youtube.com/watch?v=3jMaKlNBjug"]
-    s3_bucket_name = "recall-bot-ig-reel" 
->>>>>>> 9f405cf418f3f488e52d135f29248240b1c8804d
 
     for url in top_video_urls:
         await process_and_generate_video(url, s3_bucket_name)
 
 if __name__ == "__main__":
     asyncio.run(main())
-
