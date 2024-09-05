@@ -1,62 +1,66 @@
 {
-  "title": "The DOJ Investigates Nvidia and Tech Stocks Whipsaw | Bloomberg Technology",
-  "cover": "https://img.youtube.com/vi/heRDlfhfNUQ/maxresdefault.jpg",
+  "title": "Zico Kolter: OpenAI's Newest Board Member on The Biggest Questions and Concerns in AI Safety | E1197",
+  "cover": "https://img.youtube.com/vi/F74iOm34y-8/maxresdefault.jpg",
   "tags": [
-    "Nvidia",
-    "Intel",
+    "Artificial intelligence",
+    "Language model",
     "YouTube",
-    "Bloomberg Technology",
-    "United States Department of Justice",
-    "Lyft",
-    "Elon Musk",
-    "Starlink",
-    "Joe Biden",
-    "You.com",
-    "United States",
-    "Sam Altman",
-    "CHIPS and Science Act",
-    "Federal Reserve",
-    "Brazil",
-    "Tesla, Inc.",
-    "China"
+    "OpenAI",
+    "Large language model",
+    "Carnegie Mellon University",
+    "Artificial general intelligence",
+    "1790s"
   ],
   "summary": {
-    "Nvidia Antitrust Investigation": [
-      "The U.S. Department of Justice has issued subpoenas to Nvidia and its industry peers as part of an escalating antitrust investigation.",
-      "The investigation appears to focus on Nvidia's business practices, including potential concerns about the company making it difficult for customers to switch suppliers or pushing for exclusive deals.",
-      "Nvidia has responded to the investigation by stating that its products are the best and that customers have other options available to them.",
-      "The Department of Justice issued a subpoena to Nvidia, but market reaction suggests investors are not overly concerned, as antitrust investigations are common in the technology sector and haven't historically hindered the growth of major companies.",
-      "Antitrust investigations, while potentially disruptive, aim to ensure a competitive market that benefits consumers.",
-      "The Department of Justice's scrutiny of Nvidia aims to foster competition in the AI and financial sectors, which are crucial for the United States' leadership.",
-      "While Nvidia has achieved significant success, regulations are necessary to prevent anti-competitive practices and promote a level playing field for other companies like Intel."
+    "Intro": [
+      "The pervasive spread of misinformation makes people question the validity of everything they encounter, even without AI's influence, although AI accelerates this trend.",
+      "Humans are biologically predisposed to trust information from close associates, a tendency rooted in our evolutionary history.",
+      "Zico Kolter holds multiple positions, including Professor and Head of the Machine Learning Department at Carnegie Mellon University, a role he has held for 12 years."
     ],
-    "Nvidia and Market Performance": [
-      "Nvidia experienced its most significant stock price decline since April, and potentially March 2020, due to investor dissatisfaction with recent results and anticipation of the Federal Reserve's interest rate cuts.",
-      "Nvidia experienced its most significant single-day market cap decline on record, with a 15.9% drop in the last five days, marking the worst performance since September 2022."
+    "Understanding the Basics Behind Modern AI Technology": [
+      "Large language models (LLMs) are trained on vast amounts of internet data to predict the next word in a sequence.",
+      "The process involves building mathematical equations that learn to predict words based on the preceding words in a given text.",
+      "Despite the seemingly simple mechanism of predicting words, LLMs exhibit intelligence by generating coherent and contextually relevant responses."
     ],
-    "AI and its Impact": [
-      "Broadcom is predicted to exceed earnings expectations due to increased AI demand, a resurgence in equipment sales, and the shift from sales description models. However, positive earnings may not be enough to sustain market momentum if economic data weakens.",
-      "Amit states that generative AI is overhyped in the short term but underestimated in the long term and that value creation is in its early stages.",
-      "Amit provides an example of AI reducing claim processing time from months to a week, but emphasizes the need for careful experimentation, operationalization, governance, and compliance."
+    "Data Availability & Synthetic Data": [
+      "There is a large amount of data that is not publicly available and is not being used to train models.",
+      "Current models are limited by the amount of data they can process, not by the amount of data that is available.",
+      "Video data is much larger than text data, making it more difficult to process."
     ],
-    "Intel and the Chipmaking Industry": [
-      "Ed mentions that the Biden administration's bet on Intel to lead the U.S. chipmaking industry is facing challenges.",
-      "Intel may be unable to utilize the $8.5 billion in grants allocated to them by the CHIPS Act due to financial struggles.",
-      "Intel is considering spinning off their manufacturing division or pausing or scaling back global factory projects."
+    "Why AI Performance Doesn't Plateau Despite Data Limits": [
+      "Increasing the size of AI models continues to lead to performance improvements, even with fixed datasets.",
+      "Current AI algorithms do not extract the maximum possible information from the data provided, suggesting significant room for improvement in data processing and utilization.",
+      "The perception of plateauing gains in AI models is attributed to users' limited imagination in exploring the full potential of these models, rather than limitations inherent in the models themselves."
     ],
-    "Other Tech News": [
-      "Sam Altman is working on a project to build data centers, energy infrastructure, and other U.S. projects with a global alliance of investors.",
-      "The U.S. Department of Justice (DOJ) stated it will not force Meta to remove content or block content when the government shares information about foreign threats to national security or elections.",
-      "Lyft plans to sell part of its bike and scooter business as the ride-hailing company focuses on becoming profitable.",
-      "You.com, an AI search engine, has raised $50 million in a new funding round, including backing from Nvidia.",
-      "You.com combines external and internal data to make it useful for knowledge workers, allowing users to perform various tasks such as building a company, starting a marketing campaign, and conducting research.",
-      "Nvidia is naturally evolving to move up the stack from GPUs to more capabilities, partnering with startups like You.com to develop these technologies."
+    "How Will AI Models Evolve Amid Rapid Commoditization": [
+      "The rapid commoditization of AI models, which were once expensive and limited to a few players, is changing the AI landscape.",
+      "While many companies are currently focused on training their own models, this may not be economically viable in the future, potentially leading to consolidation in the industry.",
+      "Although some argue that the industry has reached a point of diminishing returns with increased compute power, scaling laws suggest that compute remains a significant factor in improving AI models, even if there might be more efficient approaches."
     ],
-    "Elon Musk and his Companies": [
-      "Elon Musk's internet service provider, Starlink, will block access to X in Brazil following a court order.",
-      "Leverage is being used on Starlink to impact X, highlighting the complexities of Musk's interconnected businesses.",
-      "The interconnected nature of Musk's businesses creates vulnerabilities, as pressure on one company, such as Tesla in China, could be used to target another, like X."
+    "Are Corporations Pursuing AGI or Profitable AI Products?": [
+      "AGI is defined as a system that can function as well as a close collaborator on a year-long project.",
+      "Large enterprises are hesitant to use cloud-based AI for training due to concerns about data mobility, transferability, and access rights.",
+      "There are misconceptions about how AI models are trained, with some believing that any data used in a query is also used for training the model, which is not true."
+    ],
+    "The Danger of Misinformation & Lack of Trust in Objective Reality": [
+      "The proliferation of misinformation and deepfakes is a significant concern, potentially leading to widespread distrust in any information encountered.",
+      "Humans have not always had access to objective records of information, and relying on trusted sources within close circles is a return to a more natural state of information dissemination.",
+      "While AI accelerates the spread of misinformation, it did not invent the concept, and existing social, economic, and governmental structures can potentially be adapted to regulate its impact."
+    ],
+    "The Concerns and Hierarchy of Safety in AI": [
+      "The most pressing concern in AI safety is the inability of current AI models to reliably follow specifications, making them susceptible to manipulation and misuse.",
+      "This vulnerability, akin to a buffer overflow, poses a significant risk as AI models are integrated into larger systems and interact with untrusted data, potentially granting control to malicious actors.",
+      "The potential harms of AI models, including cyberattacks, bio-risks, and the creation of harmful artifacts, are amplified by this vulnerability, making it crucial to address the issue of AI models reliably following specifications."
+    ],
+    "The Considerations of Releasing Open-Source Models": [
+      "Open-source models have been instrumental in advancing AI research and are a critical part of the AI ecosystem.",
+      "There is a need to prioritize AI safety now, focusing on practical concerns like preventing misuse and ensuring the safety of critical infrastructure, rather than solely focusing on far-fetched scenarios like rogue AI."
+    ],
+    "Quick-Fire Round": [
+      "The speaker, previously focused on model architectures, now believes they are less important, suggesting any architecture can be successful with enough effort.",
+      "Initially believing in the need for highly curated data, the speaker now acknowledges the power of using vast amounts of readily available internet data for training AI models.",
+      "The speaker expresses concern about the overemphasis on AI architectures, like the Transformer, and hopes to shift the focus towards data and capabilities of AI models."
     ]
   },
-  "video_url": "https://www.youtube.com/watch?v=heRDlfhfNUQ"
+  "video_url": "https://www.youtube.com/watch?v=F74iOm34y-8"
 }
