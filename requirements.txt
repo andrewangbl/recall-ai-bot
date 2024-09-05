@@ -1,5 +1,6 @@
-
 google-api-python-client
+boto3
+feedparser
 annotated-types==0.7.0
 anyio==4.4.0
 certifi==2024.8.30
@@ -38,4 +39,3 @@ update-checker==0.18.0
 urllib3==2.2.2
 wcwidth==0.2.13
 websocket-client==1.8.0
-aiohttp
