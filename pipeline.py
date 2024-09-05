@@ -1,46 +1,51 @@
 import asyncio
 import json
 import os
+import re
 from recall_api import process_video
 from autoeditor.generator import generate_video
 
 # This function splits the script into parts based on a character limit
 # This is because Instagram Reel has a limit of 90 seconds
-async def split_script(script, char_limit=1300):
-    # This function returns a list of script parts, and each part will be made into a video
-    parts = []
-    current_part = []
-    current_char_count = 0
+async def split_script(script, char_limit=1000, upper_limit=1900):
+    def simple_split(arr, char_limit, upper_limit):
+        parts = []
+        current_part = []
+        current_length = 0
 
-    for sentence in script:
-        if current_char_count + len(sentence) > char_limit:
-            parts.append(current_part)
-            current_part = [sentence]
-            current_char_count = len(sentence)
-        else:
-            current_part.append(sentence)
-            current_char_count += len(sentence)
+        for i, element in enumerate(arr):
+            element_length = len(element)
 
-    if current_part:
-        remaining_chars = sum(len(s) for s in current_part)
-        if char_limit < remaining_chars < 2 * char_limit:
-            total_chars = remaining_chars
-            mid_char_count = total_chars // 2
-            current_count = 0
-            split_index = 0
+            # Check if the remaining elements (including current) are between char_limit and upper_limit
+            remaining_length = sum(len(e) for e in arr[i:])
+            if not current_part and char_limit < remaining_length <= upper_limit:
+                middle_index = i + (len(arr[i:]) // 2)
+                parts.append(arr[i:middle_index])
+                parts.append(arr[middle_index:])
+                return parts
 
-            for i, sentence in enumerate(current_part):
-                current_count += len(sentence)
-                if current_count > mid_char_count:
-                    split_index = i
-                    break
+            if current_length + element_length > char_limit and current_part:
+                parts.append(current_part)
+                current_part = []
+                current_length = 0
 
-            parts.append(current_part[:split_index])
-            parts.append(current_part[split_index:])
-        else:
+            current_part.append(element)
+            current_length += element_length
+
+        if current_part:
             parts.append(current_part)
 
-    return parts
+        return parts
+
+    optimized_parts = simple_split(script, char_limit, upper_limit)
+
+    # Print the different parts of the video script
+    for i, part in enumerate(optimized_parts, 1):
+        print(f"\nPart {i}:")
+        print("\n".join(part))
+        print(f"Character count: {sum(len(s) for s in part)}")
+
+    return optimized_parts
 
 # This function generates a video for a single part of the script
 async def generate_video_part(part_content, clip_generation_mode, part_number, selected_voice):
@@ -67,7 +72,7 @@ async def generate_video_part(part_content, clip_generation_mode, part_number, s
     return selected_voice
 
 # Main function to process a video URL and generate video(s)
-async def process_and_generate_video(video_url, clip_generation_mode="combine", test_video_only=False):
+async def process_and_generate_video(video_url, clip_generation_mode="combine", test_video_only=True):
     # If test_video_only is True, use a pre-existing enhanced summary
     if test_video_only:
         # Load the enhanced summary from a JSON file in the root directory
@@ -134,7 +139,8 @@ async def process_and_generate_video(video_url, clip_generation_mode="combine", 
 
 # Main entry point of the script
 async def main():
-    video_url = "https://www.youtube.com/watch?v=arC9jtPLz7s"  # Example video URL
+    video_url = "https://www.youtube.com/watch?v=jyp-cHmpfgk"  # Example video URL
+
     await process_and_generate_video(video_url)
 
 if __name__ == "__main__":

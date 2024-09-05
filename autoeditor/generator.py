@@ -7,13 +7,14 @@ from .editor import VideoEditor
 
 def generate_video(input_json_path, clip_generation_mode="normal", part_number=1, selected_voice=None):
     # Read the content from the JSON file
-    with open(input_json_path, 'r') as file:
-        content = json.load(file)
+    with open(input_json_path, 'r') as f:
+        part_content = json.load(f)
 
-    script_lines = content['script']
-    cover_img_url = content.get('cover', None)
+    script_lines = part_content['script']
+    cover = part_content['cover']
+    caption = part_content['caption']
 
-    # Create the audio files and SRT for each sentence
+    # Process the script lines to generate audio and video
     audio_segments = []
     srt_content = ""
     current_time = 0.0
@@ -25,7 +26,21 @@ def generate_video(input_json_path, clip_generation_mode="normal", part_number=1
     print(f"Selected voice: {selected_voice}")
 
     def split_into_sentences(text):
-        return re.split(r'(?<=[.!?])\s+(?=[A-Z])', text)
+        # Handle common abbreviations
+        text = re.sub(r'(?<=[A-Z])\.(?=[A-Z]\.)', '<PERIOD>', text)
+        text = re.sub(r'(?<=Dr)\.', '<PERIOD>', text)
+        text = re.sub(r'(?<=Mr)\.', '<PERIOD>', text)
+        text = re.sub(r'(?<=Mrs)\.', '<PERIOD>', text)
+        text = re.sub(r'(?<=Ms)\.', '<PERIOD>', text)
+        # Add more abbreviations as needed
+
+        # Split sentences
+        sentences = re.split(r'(?<=[.!?])\s+(?=[A-Z])', text)
+
+        # Restore periods in abbreviations
+        sentences = [s.replace('<PERIOD>', '.') for s in sentences]
+
+        return [s.strip() for s in sentences if s.strip()]
 
     for paragraph in script_lines:
         sentences = split_into_sentences(paragraph)
@@ -70,7 +85,7 @@ def generate_video(input_json_path, clip_generation_mode="normal", part_number=1
     # Create the video
     try:
         video_editor = VideoEditor(total_duration, srt_path, wav_path, False, clip_generation_mode=clip_generation_mode, part_number=part_number)
-        video_editor.cover_img_url = cover_img_url
+        video_editor.cover_img_url = cover
         video_editor.start_render(output_filename)
     except Exception as e:
         print(f"Error rendering video: {e}")
