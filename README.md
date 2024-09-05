@@ -31,7 +31,8 @@ To use the recall-ai-bot, follow these steps:
      a. Check for new videos from the specified channels
      b. Process new videos to generate summaries
      c. Create Instagram Reel videos from the summaries
-     d. (Future feature) Upload the videos to Instagram
+     d. Upload the videos to an AWS S3 bucket
+     e. Post the videos as Instagram Reels
 
 4. **Output**:
    - Generated videos will be saved in the `outputs` folder as `reel_output_p{part_number}.mp4`
@@ -53,8 +54,8 @@ To use the recall-ai-bot, follow these steps:
      # endLine: 30
      ```
 
-7. **Instagram Upload** (Future Feature):
-   - Once implemented, the bot will automatically upload generated videos to Instagram using the `reel_upload.py` script.
+7. **Instagram Upload**:
+   - The bot automatically uploads generated videos to Instagram using the `reel_upload.py` script.
 
 **Note**: Ensure you have the necessary permissions and comply with YouTube's and Instagram's terms of service when using this bot.
 
@@ -78,9 +79,9 @@ The recall-ai-bot operates through the following process:
    - The `autoeditor` module is used to convert the script into one or more Instagram Reel videos.
    - If a script is too long for a single Reel, it's automatically split into multiple parts.
 
-4. **Upload and Posting** (Upcoming Feature):
-   - Generated videos will be uploaded to an AWS S3 bucket.
-   - The S3 URLs will then be used to post the videos as Instagram Reels.
+4. **Upload and Posting**:
+   - Generated videos are uploaded to an AWS S3 bucket.
+   - The S3 URLs are then used to post the videos as Instagram Reels.
 
 This automated process allows for efficient creation and distribution of content, transforming YouTube videos into engaging Instagram Reels with minimal manual intervention.
 
@@ -105,7 +106,7 @@ This module handles the generation of video content from the processed scripts, 
 5. autoeditor/editor.py: Manages video editing and composition.
 This class is responsible for combining various elements (background video, subtitles, cover images) into the final video output.
 
-## Notes for improvement in the future (skip this now for current MVP)
+## FRQ or Notes for improvement in the future
 
 ### autoeditoer output
 1. to manage autogenerate video audio srt output files path go to autoeditor/generator.py line 69 74.
@@ -114,3 +115,24 @@ This class is responsible for combining various elements (background video, subt
 
 ### script generated
 control the json file input in workflow.py
+
+### Adjust AI voice reading specified
+autoeditor/generator.py line 50
+
+### Adjust the length of separate video parts
+pipeline.py line 25 char_limit and upper_limit
+
+### Caption and video script generation Prompt Engineering
+change the prompt in recall_api/gpt_summary.py
+
+### To change the Youtube channel to monitor
+edit monitor/monitor_list.txt only.
+
+### S3 Bucket Configuration
+To configure the S3 bucket for video uploads, modify the `bucket_name` parameter in the `process_and_generate_video` function call in `pipeline.py`.
+
+### Instagram Reel Upload
+The Instagram Reel upload process is handled by the `reel_upload.py` script. To adjust the upload settings or modify the caption format, edit this file.
+
+### Video Part Naming in S3
+Videos are now stored in S3 with unique identifiers based on the YouTube video ID. This prevents overwriting when uploading multiple series of video summaries. The naming convention is `videos/{youtube_video_id}_p{part_number}.mp4`.

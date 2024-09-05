@@ -40,9 +40,9 @@ def generate_enhanced_summary(structured_summary):
     For the script:
     1. Start by mentioning the original YouTube video's title: "{structured_summary.get('title', 'Untitled Video')}" Then, mention that this video is summarized by Recall.
     2. Add transitions and context for a smoother narrative flow when necessary.
-    3. Aim for impactful short sentences suitable for Instagram Reel.
-    4. Do not include any questions in the script. Questions are not suitable for AI voice narration as they cannot be read with proper intonation.
-    5. Avoid using parentheses for explanations, as AI will read the text within them verbatim.
+    3. Aim for impactful short sentences suitable for Instagram Reel. No long and complex sentences allowed.
+    4. Do not include any questions in the video script.
+    5. Avoid using parentheses for explanations.
     6. Include a clear and engaging ending to the script, encouraging viewers to check out the full summary using Recall's AI tool.
 
     For the caption:

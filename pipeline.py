@@ -7,6 +7,7 @@ import boto3  # Import the boto3 library
 from recall_api import process_video
 from autoeditor.generator import generate_video
 from monitor import get_top_videos
+from reel_upload import upload_reel_from_s3
 
 # Initialize the S3 client
 s3_client = boto3.client('s3')
@@ -21,7 +22,7 @@ async def upload_to_s3(file_path, bucket_name, s3_key):
 
 # This function splits the script into parts based on a character limit
 # This is because Instagram Reel has a limit of 90 seconds
-async def split_script(script, char_limit=1000, upper_limit=1900):
+async def split_script(script, char_limit=1100, upper_limit=2000):
     def simple_split(arr, char_limit, upper_limit):
         parts = []
         current_part = []
@@ -77,9 +78,26 @@ async def generate_video_part(part_content, clip_generation_mode, part_number, s
             selected_voice=selected_voice
         )
 
+        # Get the YouTube video ID from structured_summary.json
+        with open("operation_data/structured_summary.json", "r") as f:
+            structured_summary = json.load(f)
+        video_url = structured_summary.get("video_url", "")
+        video_id = video_url.split("v=")[-1]
+
         # Upload the generated video to S3
-        video_file = f"outputs/reel_output_p{part_number}.mp4"  # Updated to include the 'outputs' folder
-        await upload_to_s3(video_file, bucket_name, f"videos/reel_output_p{part_number}.mp4")
+        video_file = f"outputs/reel_output_p{part_number}.mp4"
+        s3_key = f"videos/{video_id}_p{part_number}.mp4"
+        await upload_to_s3(video_file, bucket_name, s3_key)
+
+        # Get the S3 URL for the uploaded video
+        s3_video_url = f"https://{bucket_name}.s3.amazonaws.com/{s3_key}"
+
+        # Upload the video to Instagram Reels
+        upload_success = await asyncio.to_thread(upload_reel_from_s3, s3_video_url, part_number)
+        if upload_success:
+            print(f"Successfully uploaded Part {part_number} to Instagram Reels")
+        else:
+            print(f"Failed to upload Part {part_number} to Instagram Reels")
 
     except Exception as e:
         print(f"Error during video generation for Part {part_number}: {e}")
@@ -124,7 +142,7 @@ async def process_and_generate_video(video_url, bucket_name, clip_generation_mod
     for i, part_script in enumerate(script_parts, 1):
         # Add part number and continuation text
         if i == 1:
-            part_script.insert(0, f"Part {i}")
+            part_script.insert(0, f"Part {i}.")
         else:
             part_script.insert(0, f"Part {i}. Continued from part {i-1}")
 
@@ -139,7 +157,7 @@ async def process_and_generate_video(video_url, bucket_name, clip_generation_mod
 
         # Generate the video for this part and upload it to S3
         try:
-            await generate_video_part(part_content, clip_generation_mode, i, selected_voice, bucket_name)
+            selected_voice = await generate_video_part(part_content, clip_generation_mode, i, selected_voice, bucket_name)
             print(f"Video generation for Part {i} completed successfully!")
         except Exception as e:
             print(f"Error during video generation for Part {i}: {e}")
@@ -148,15 +166,20 @@ async def process_and_generate_video(video_url, bucket_name, clip_generation_mod
 
 # Main entry point of the script
 async def main():
-    # channel_ids = []
-    # with open('monitor/monitor_list.txt', 'r') as file:
-    #     channel_ids = [line.split(',')[1].strip() for line in file if line.strip()]
+    # Get channel IDs from the monitor list
+    channel_ids = []
+    with open('monitor/monitor_list.txt', 'r') as file:
+        channel_ids = [line.split(',')[1].strip() for line in file if line.strip()]
 
-    # top_video_urls = await get_top_videos(channel_ids)
-    top_video_urls =['fake_url']
+    # Get top video URLs from monitored channels
+    top_video_urls = await get_top_videos(channel_ids)
 
+    # Process each video URL
     for url in top_video_urls:
-        await process_and_generate_video(url, s3_bucket_name)
+        try:
+            await process_and_generate_video(url, "recall-bot-ig-reel", test_video_only=False)
+        except Exception as e:
+            print(f"Error processing video {url}: {e}")
 
 if __name__ == "__main__":
     asyncio.run(main())

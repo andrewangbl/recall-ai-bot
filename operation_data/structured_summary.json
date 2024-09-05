@@ -1,66 +1,95 @@
 {
-  "title": "Zico Kolter: OpenAI's Newest Board Member on The Biggest Questions and Concerns in AI Safety | E1197",
-  "cover": "https://img.youtube.com/vi/F74iOm34y-8/maxresdefault.jpg",
+  "title": "Superhuman 2.0: The AI edge, top productivity hacks, and the future of email | E2002",
+  "cover": "https://img.youtube.com/vi/FSnpddL9wwk/maxresdefault.jpg",
   "tags": [
-    "Artificial intelligence",
-    "Language model",
+    "Gmail",
+    "NetSuite",
     "YouTube",
-    "OpenAI",
-    "Large language model",
-    "Carnegie Mellon University",
-    "Artificial general intelligence",
-    "1790s"
+    "Google",
+    "Oracle Corporation",
+    "Grammarly",
+    "Machine learning",
+    "Chief financial officer",
+    "ChatGPT",
+    "Lemon",
+    "Artificial intelligence"
   ],
   "summary": {
-    "Intro": [
-      "The pervasive spread of misinformation makes people question the validity of everything they encounter, even without AI's influence, although AI accelerates this trend.",
-      "Humans are biologically predisposed to trust information from close associates, a tendency rooted in our evolutionary history.",
-      "Zico Kolter holds multiple positions, including Professor and Head of the Machine Learning Department at Carnegie Mellon University, a role he has held for 12 years."
+    "Superhuman\u2019s Rahul Vohra joins Jason": [
+      "A demonstration of an AI tool's ability to find specific information within a large dataset of emails.",
+      "The AI tool can synthesize information from millions of emails and provide specific results based on the user's request.",
+      "The speaker highlights the efficiency and time-saving benefits of using this AI tool for tasks like finding customer responses."
     ],
-    "Understanding the Basics Behind Modern AI Technology": [
-      "Large language models (LLMs) are trained on vast amounts of internet data to predict the next word in a sequence.",
-      "The process involves building mathematical equations that learn to predict words based on the preceding words in a given text.",
-      "Despite the seemingly simple mechanism of predicting words, LLMs exhibit intelligence by generating coherent and contextually relevant responses."
+    "Rahul Vohra's background and Superhuman's pitch": [
+      "Rahul Vohra, the founder of Superhuman, pitched the idea of a faster email experience to an investor on a Sunday.",
+      "Vohra's pitch was to create a faster email experience than Gmail, targeting the top 1% of email users who are willing to pay for increased productivity.",
+      "The investor was initially skeptical about the idea of charging for an email service and competing with Google's speed and resources."
     ],
-    "Data Availability & Synthetic Data": [
-      "There is a large amount of data that is not publicly available and is not being used to train models.",
-      "Current models are limited by the amount of data they can process, not by the amount of data that is available.",
-      "Video data is much larger than text data, making it more difficult to process."
+    "Evolution and early challenges of Superhuman": [
+      "Gmail was a significant contributor to laptop battery drain due to its energy inefficiency within the Chrome browser.",
+      "Despite the success of browser extensions like Grammarly and Honey, building a business around them was initially met with skepticism in 2010.",
+      "Extensive user interviews (700 in a year) revealed a common frustration: email taking too long, leading to feelings of frustration and wasted time."
     ],
-    "Why AI Performance Doesn't Plateau Despite Data Limits": [
-      "Increasing the size of AI models continues to lead to performance improvements, even with fixed datasets.",
-      "Current AI algorithms do not extract the maximum possible information from the data provided, suggesting significant room for improvement in data processing and utilization.",
-      "The perception of plateauing gains in AI models is attributed to users' limited imagination in exploring the full potential of these models, rather than limitations inherent in the models themselves."
+    "NetSuite - Download the CFO\u2019s Guide to AI and Machine Learning today! Visit": [
+      "Over 38,000 businesses use NetSuite by Oracle to manage their operations.",
+      "NetSuite is a cloud enterprise resource planning (ERP) system that offers accounting, financial management, inventory, and human resources features in a single platform.",
+      "Businesses can download a free CFO's guide to AI and machine learning by visiting nets.com/twist."
     ],
-    "How Will AI Models Evolve Amid Rapid Commoditization": [
-      "The rapid commoditization of AI models, which were once expensive and limited to a few players, is changing the AI landscape.",
-      "While many companies are currently focused on training their own models, this may not be economically viable in the future, potentially leading to consolidation in the industry.",
-      "Although some argue that the industry has reached a point of diminishing returns with increased compute power, scaling laws suggest that compute remains a significant factor in improving AI models, even if there might be more efficient approaches."
+    "Superhuman's onboarding strategy and customer feedback importance": [
+      "Many founders have attempted to replicate the Superhuman model, recognizing its elegance, power, and appeal to power users.",
+      "The decision to implement a human onboarding process stemmed from resource constraints and a desire to prioritize product development over growth in the early stages.",
+      "The human onboarding process serves as a filter, effectively screening out casual users who may not fully utilize or appreciate the product's features, ensuring that the focus remains on attracting and retaining highly engaged users."
     ],
-    "Are Corporations Pursuing AGI or Profitable AI Products?": [
-      "AGI is defined as a system that can function as well as a close collaborator on a year-long project.",
-      "Large enterprises are hesitant to use cloud-based AI for training due to concerns about data mobility, transferability, and access rights.",
-      "There are misconceptions about how AI models are trained, with some believing that any data used in a query is also used for training the model, which is not true."
+    "New features in Superhuman 2.0 and multiplayer email": [
+      "Superhuman 2.0 has been a significant business success with real revenue and a large customer base.",
+      "Two highly requested features were multiplayer mode, allowing for team collaboration within the app, and team snippets, enabling consistent messaging across the organization.",
+      "The speaker believes that AI will play a larger role in email, including features like automatically writing emails and summarizing content, as well as facilitating collaboration and shortening email length."
     ],
-    "The Danger of Misinformation & Lack of Trust in Objective Reality": [
-      "The proliferation of misinformation and deepfakes is a significant concern, potentially leading to widespread distrust in any information encountered.",
-      "Humans have not always had access to objective records of information, and relying on trusted sources within close circles is a return to a more natural state of information dissemination.",
-      "While AI accelerates the spread of misinformation, it did not invent the concept, and existing social, economic, and governmental structures can potentially be adapted to regulate its impact."
+    "AI's impact on podcast production": [
+      "Artificial intelligence is impacting the production of text, audio, and knowledge work by either improving quality or reducing costs.",
+      "This impact is being observed presently.",
+      "The reduction in cost is achieved by reducing the workforce required."
     ],
-    "The Concerns and Hierarchy of Safety in AI": [
-      "The most pressing concern in AI safety is the inability of current AI models to reliably follow specifications, making them susceptible to manipulation and misuse.",
-      "This vulnerability, akin to a buffer overflow, poses a significant risk as AI models are integrated into larger systems and interact with untrusted data, potentially granting control to malicious actors.",
-      "The potential harms of AI models, including cyberattacks, bio-risks, and the creation of harmful artifacts, are amplified by this vulnerability, making it crucial to address the issue of AI models reliably following specifications."
+    "Lemon.io - Get 15% off your first 4 weeks of developer time": [
+      "Lemon.io is a platform that connects businesses with vetted, experienced developers who have at least three years of experience.",
+      "Lemon.io offers competitive rates and handles the integration of developers into teams, addressing the challenges of finding and onboarding tech talent.",
+      "Listeners can get a 15% discount for their first four weeks using a special link."
     ],
-    "The Considerations of Releasing Open-Source Models": [
-      "Open-source models have been instrumental in advancing AI research and are a critical part of the AI ecosystem.",
-      "There is a need to prioritize AI safety now, focusing on practical concerns like preventing misuse and ensuring the safety of critical infrastructure, rather than solely focusing on far-fetched scenarios like rogue AI."
+    "Live demo of Superhuman 2.0": [
+      "Superhuman has expanded its user base to include larger enterprises, with some organizations having 2,000-3,000 users.",
+      "Superhuman 2.0 introduces a collaborative email experience where users can share live email threads with their team, allowing for real-time commenting and eliminating the need for forwarding or BCCing.",
+      "Shared email threads can be accessed by anyone via a link, even if they are not Superhuman users, facilitating collaboration with external parties like investors or vendors."
     ],
-    "Quick-Fire Round": [
-      "The speaker, previously focused on model architectures, now believes they are less important, suggesting any architecture can be successful with enough effort.",
-      "Initially believing in the need for highly curated data, the speaker now acknowledges the power of using vast amounts of readily available internet data for training AI models.",
-      "The speaker expresses concern about the overemphasis on AI architectures, like the Transformer, and hopes to shift the focus towards data and capabilities of AI models."
+    "AssemblyAI - Get 100 free hours to start building": [
+      "AssemblyAI provides AI models that can be used to turn voice data into new features for products.",
+      "AssemblyAI's speech-to-text AI models are simple, accurate, and fast, with a low word error rate.",
+      "Developers can get 100 free hours of AssemblyAI by visiting assemblyai.com/twist."
+    ],
+    "Importance of documenting conversations and Superhuman for Sales": [
+      "The importance of documenting conversations, especially in business and finance, is emphasized due to their value and potential legal implications.",
+      "There is a concern about the lack of documentation for past conversations and a desire to have a repository for important discussions.",
+      "Email is highlighted as a valuable source of information, and a new AI-powered feature called \"Ask AI\" is introduced to improve email search functionality."
+    ],
+    "Live demo of Superhuman's \u201cAsk AI\u201d feature": [
+      "The \u201cAsk AI\u201d feature can search through a year\u2019s worth of emails and calendar information to answer user questions.",
+      "The feature can also provide follow-up questions and cite the source of the information, such as an email thread.",
+      "One user was able to use \u201cAsk AI\u201d to find the 10 most positive customer responses to an email in a much shorter amount of time than it would have taken to do manually."
+    ],
+    "AI's impact on productivity and team management": [
+      "A company maintains 48 months of runway at all times to ensure stability and provide a clear message to investors and potential acquirers.",
+      "A company size of 100-110 people is considered ideal as it allows for effective communication, manageable silos, and strong relationships between the founder/CEO and employees.",
+      "Founders and CEOs should prioritize and communicate the expectation of increasing productivity through AI implementation and provide the necessary budget and support for adopting new software and tools."
+    ],
+    "AI tools for productivity": [
+      "Loom AI is a tool that allows for recording videos with screen capture and automatically generates titles, transcripts, and chapters from the recording.",
+      "ChatGPT is a useful tool for generating variations of copy, such as headlines, with different attributes like being funnier or more concise.",
+      "AI can be used to enhance productivity in creative tasks like writing by providing suggestions and sparking new ideas, even if some of the suggestions are not usable."
+    ],
+    "AI's future as a chief of staff and email management": [
+      "There are three phases in the evolution of AI features: on-demand, always-on, and AI agents.",
+      "An AI agent could one day manage inboxes by drafting emails, scheduling meetings, and sending fully written emails on a user's behalf.",
+      "Superhuman is working on improving its auto-reply feature by studying users' writing voices to make replies sound more personal."
     ]
   },
-  "video_url": "https://www.youtube.com/watch?v=F74iOm34y-8"
+  "video_url": "https://www.youtube.com/watch?v=FSnpddL9wwk"
 }
