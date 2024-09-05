@@ -2,8 +2,10 @@ import asyncio
 import json
 import os
 import re
+import glob
 from recall_api import process_video
 from autoeditor.generator import generate_video
+from monitor import get_top_videos
 
 # This function splits the script into parts based on a character limit
 # This is because Instagram Reel has a limit of 90 seconds
@@ -49,7 +51,6 @@ async def split_script(script, char_limit=1000, upper_limit=1900):
 
 # This function generates a video for a single part of the script
 async def generate_video_part(part_content, clip_generation_mode, part_number, selected_voice):
-    # This function returns the selected voice for consistency across parts
     temp_script_file = f"inputs/temp_script_part_{part_number}.json"
     with open(temp_script_file, 'w') as f:
         json.dump(part_content, f, indent=2)
@@ -62,9 +63,6 @@ async def generate_video_part(part_content, clip_generation_mode, part_number, s
             part_number=part_number,
             selected_voice=selected_voice
         )
-        print(f"Video generation for Part {part_number} completed successfully!")
-    except Exception as e:
-        print(f"Error during video generation for Part {part_number}: {e}")
     finally:
         # Remove the temporary script file
         await asyncio.to_thread(os.remove, temp_script_file)
@@ -72,11 +70,14 @@ async def generate_video_part(part_content, clip_generation_mode, part_number, s
     return selected_voice
 
 # Main function to process a video URL and generate video(s)
-async def process_and_generate_video(video_url, clip_generation_mode="combine", test_video_only=True):
+async def process_and_generate_video(video_url, clip_generation_mode="combine", test_video_only=False):
+    # Create operation_data directory if it doesn't exist
+    os.makedirs("operation_data", exist_ok=True)
+
     # If test_video_only is True, use a pre-existing enhanced summary
     if test_video_only:
-        # Load the enhanced summary from a JSON file in the root directory
-        with open("enhanced_summary.json", "r") as f:
+        # Load the enhanced summary from a JSON file in the operation_data directory
+        with open("operation_data/enhanced_summary.json", "r") as f:
             enhanced_summary = json.load(f)
     else:
         # Process the video URL to generate an enhanced summary
@@ -91,7 +92,9 @@ async def process_and_generate_video(video_url, clip_generation_mode="combine", 
         print("Enhanced summary:")
         print(json.dumps(enhanced_summary, indent=2))
 
-        # Note: The enhanced_summary.json file is created in the root directory by the process_video function
+        # Save the enhanced summary to the operation_data directory
+        with open("operation_data/enhanced_summary.json", "w") as f:
+            json.dump(enhanced_summary, f, indent=2)
 
     # Split the script into parts
     script_parts = await split_script(enhanced_summary['script'])
@@ -114,34 +117,25 @@ async def process_and_generate_video(video_url, clip_generation_mode="combine", 
             "script": part_script
         }
 
-        # Create a temporary JSON file for each part in the inputs directory
-        temp_script_file = f"inputs/temp_script_part_{i}.json"
-        with open(temp_script_file, 'w') as f:
-            json.dump(part_content, f, indent=2)
-
+        # Generate the video for this part
         try:
-            # Generate the video for this part
-            # The output video file will be saved in the outputs directory as reel_output_p{i}.mp4
-            selected_voice = generate_video(
-                temp_script_file,
-                clip_generation_mode,
-                part_number=i,
-                selected_voice=selected_voice
-            )
+            await generate_video_part(part_content, clip_generation_mode, i, selected_voice)
             print(f"Video generation for Part {i} completed successfully!")
         except Exception as e:
             print(f"Error during video generation for Part {i}: {e}")
-        finally:
-            # Remove the temporary script file
-            os.remove(temp_script_file)
 
     print("All video parts generated successfully!")
 
 # Main entry point of the script
 async def main():
-    video_url = "https://www.youtube.com/watch?v=jyp-cHmpfgk"  # Example video URL
+    channel_ids = []
+    with open('monitor/monitor_list.txt', 'r') as file:
+        channel_ids = [line.split(',')[1].strip() for line in file if line.strip()]
 
-    await process_and_generate_video(video_url)
+    top_video_urls = await get_top_videos(channel_ids)
+
+    for url in top_video_urls:
+        await process_and_generate_video(url)
 
 if __name__ == "__main__":
     asyncio.run(main())

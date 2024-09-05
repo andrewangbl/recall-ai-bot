@@ -3,8 +3,12 @@ from .getrecall import fetch_recall_data
 from .parser import parse_recall_summary
 from .gpt_summary import generate_enhanced_summary
 import json
+import os
 
 async def process_video(video_url):
+    # Create operation_data directory if it doesn't exist
+    os.makedirs("operation_data", exist_ok=True)
+
     # Step 1: Fetch data from Recall API
     raw_data = await asyncio.to_thread(fetch_recall_data, video_url)
     if not raw_data:
@@ -13,15 +17,15 @@ async def process_video(video_url):
     # Step 2: Parse the raw data into structured summary
     structured_summary = parse_recall_summary(raw_data, video_url)
 
-    # Save structured summary (optional)
-    with open("structured_summary.json", "w") as f:
+    # Save structured summary
+    with open("operation_data/structured_summary.json", "w") as f:
         json.dump(structured_summary, f, indent=2)
 
     # Step 3: Generate enhanced summary using GPT
     enhanced_summary = await asyncio.to_thread(generate_enhanced_summary, structured_summary)
 
     # Save enhanced summary
-    with open("enhanced_summary.json", "w") as f:
+    with open("operation_data/enhanced_summary.json", "w") as f:
         json.dump(enhanced_summary, f, indent=2)
 
     return enhanced_summary

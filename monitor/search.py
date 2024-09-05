@@ -1,130 +1,69 @@
-from googleapiclient.discovery import build
-from dotenv import load_dotenv
-import os
+import feedparser
 from datetime import datetime, timedelta
+import aiohttp
+import asyncio
+import re
 
-"""
-1. It reads the channel names from monitor_list.txt.
-2. For each channel name, it fetches the channel ID.
-3. It then searches for videos from each channel published in the last 48 hours.
-4. It filters the videos based on duration (between 10 minutes and 5 hours by default).
-5. Finally, it selects the video with the highest view count and output its URL.
-"""
+async def get_latest_videos_rss(channel_id, hours_ago=24):
+    rss_url = f"https://www.youtube.com/feeds/videos.xml?channel_id={channel_id}"
+    async with aiohttp.ClientSession() as session:
+        async with session.get(rss_url) as response:
+            feed_content = await response.text()
 
-# Load environment variables from .env file
-load_dotenv()
+    feed = feedparser.parse(feed_content)
 
-# Get API key from environment variable
-api_key = os.getenv("YOUTUBE_API_KEY")
+    current_time = datetime.utcnow()
+    time_threshold = current_time - timedelta(hours=hours_ago)
 
-# Create a YouTube API client
-youtube = build('youtube', 'v3', developerKey=api_key)
+    videos = []
+    for entry in feed.entries:
+        published_time = datetime(*entry.published_parsed[:6])
+        if published_time > time_threshold:
+            video_id = entry.yt_videoid
+            videos.append({
+                'id': video_id,
+                'title': entry.title,
+                'published_at': published_time,
+                'url': f"https://www.youtube.com/watch?v={video_id}"
+            })
 
-def get_channel_id(channel_name):
-    try:
-        search_response = youtube.search().list(
-            q=channel_name,
-            type='channel',
-            part='id',
-            maxResults=1
-        ).execute()
+    return videos
 
-        if 'items' in search_response and search_response['items']:
-            return search_response['items'][0]['id']['channelId']
-        else:
-            return None
-    except Exception as e:
-        print(f"Error fetching channel ID for {channel_name}: {e}")
+async def get_video_details(video_id):
+    url = f"https://www.youtube.com/watch?v={video_id}"
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url) as response:
+            html_content = await response.text()
+
+    view_count_match = re.search(r'"viewCount":"(\d+)"', html_content)
+    view_count = int(view_count_match.group(1)) if view_count_match else 0
+
+    return {'views': view_count}
+
+async def find_top_video(channel_id):
+    videos = await get_latest_videos_rss(channel_id)
+    if not videos:
         return None
 
-def get_latest_videos(channel_id, published_after, min_duration=600, max_duration=18000):
-    try:
-        search_response = youtube.search().list(
-            channelId=channel_id,
-            type="video",
-            order="date",
-            part="id,snippet",
-            maxResults=50,
-            publishedAfter=published_after.isoformat() + "Z"
-        ).execute()
+    video_details = await asyncio.gather(*[get_video_details(video['id']) for video in videos])
+    for video, details in zip(videos, video_details):
+        video.update(details)
 
-        video_ids = [item['id']['videoId'] for item in search_response.get('items', [])]
+    top_video = max(videos, key=lambda x: x['views'])
+    return top_video['url']
 
-        if not video_ids:
-            return []
+async def get_top_videos(channel_ids):
+    top_videos = await asyncio.gather(*[find_top_video(channel_id) for channel_id in channel_ids])
+    return [video for video in top_videos if video]
 
-        videos_response = youtube.videos().list(
-            part="contentDetails,statistics",
-            id=','.join(video_ids)
-        ).execute()
+async def main():
+    with open('monitor/monitor_list.txt', 'r') as file:
+        channel_ids = [line.split(',')[1].strip() for line in file if line.strip()]
 
-        filtered_videos = []
-        for video in videos_response.get('items', []):
-            try:
-                duration = parse_duration(video['contentDetails']['duration'])
-                if min_duration <= duration <= max_duration:
-                    filtered_videos.append({
-                        'id': video['id'],
-                        'title': next(item['snippet']['title'] for item in search_response['items'] if item['id']['videoId'] == video['id']),
-                        'views': int(video['statistics']['viewCount']),
-                        'likes': int(video['statistics'].get('likeCount', 0)),
-                        'duration': duration
-                    })
-            except (KeyError, ValueError) as e:
-                print(f"Error processing video {video.get('id', 'unknown')}: {e}")
-                continue
+    top_video_urls = await get_top_videos(channel_ids)
+    return top_video_urls
 
-        return filtered_videos
-
-    except Exception as e:
-        print(f"Error fetching videos for channel {channel_id}: {e}")
-        return []
-
-def parse_duration(duration_str):
-    hours = minutes = seconds = 0
-    duration_str = duration_str.replace('PT', '')
-    if 'H' in duration_str:
-        hours, duration_str = duration_str.split('H')
-        hours = int(hours)
-    if 'M' in duration_str:
-        minutes, duration_str = duration_str.split('M')
-        minutes = int(minutes)
-    if 'S' in duration_str:
-        seconds = int(duration_str.replace('S', ''))
-    return hours * 3600 + minutes * 60 + seconds
-
-def find_best_video(channel_names, hours_ago=48, min_duration=600, max_duration=18000):
-    channel_ids = {}
-    for name in channel_names:
-        channel_id = get_channel_id(name)
-        if channel_id:
-            channel_ids[name] = channel_id
-            print(f"Channel: {name}, ID: {channel_id}")
-        else:
-            print(f"Could not find channel ID for: {name}")
-
-    published_after = datetime.utcnow() - timedelta(hours=hours_ago)
-    all_videos = []
-
-    for channel_name, channel_id in channel_ids.items():
-        videos = get_latest_videos(channel_id, published_after, min_duration, max_duration)
-        all_videos.extend(videos)
-
-    if not all_videos:
-        print("No videos found matching the criteria.")
-        return None
-
-    best_video = max(all_videos, key=lambda x: x['views'])
-    return f"https://www.youtube.com/watch?v={best_video['id']}"
-
-# Read channel names from monitor_list.txt
-with open('monitor/monitor_list.txt', 'r') as file:
-    channel_names = [line.split(',')[0].replace('Channel: ', '').strip() for line in file if line.strip()]
-
-# Find the best video
-best_video_url = find_best_video(channel_names, hours_ago=48, min_duration=600, max_duration=18000)
-
-if best_video_url:
-    print(f"Best video URL: {best_video_url}")
-else:
-    print("No suitable videos found.")
+if __name__ == "__main__":
+    top_videos = asyncio.run(main())
+    for url in top_videos:
+        print(url)

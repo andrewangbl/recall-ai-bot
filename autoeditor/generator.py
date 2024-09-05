@@ -66,12 +66,12 @@ def generate_video(input_json_path, clip_generation_mode="normal", part_number=1
     print("Created audio files for script")
 
     # Write SRT content to file
-    srt_path = f"inputs/output.srt"
+    srt_path = f"operation_data/output.srt"
     with open(srt_path, "w") as f:
         f.write(srt_content)
 
     # Merge the audio files into one
-    wav_path = f"inputs/output.wav"
+    wav_path = f"operation_data/output.wav"
     try:
         total_duration = merge_audio_files(wav_path, 0.1)
         print("Merged audio duration:", total_duration, "seconds")

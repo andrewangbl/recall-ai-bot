@@ -3,7 +3,6 @@ from moviepy.editor import VideoFileClip, TextClip, CompositeVideoClip, AudioFil
 import random
 import math
 import os
-import multiprocessing
 
 
 class VideoEditor:
@@ -96,7 +95,7 @@ class VideoEditor:
         part_clip = part_clip.set_position(('center', 0.1), relative=True).set_duration(5)  # Increased duration to 5 seconds
         return part_clip
 
-    def start_render(self, output_path="outputs/output.mp4"):
+    def start_render(self, output_path="outputs/output.mp4",temp_data_path="operation_data"):
         """
         Starts the rendering process by creating a video clip with subtitles.
 

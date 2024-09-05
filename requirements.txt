@@ -38,3 +38,4 @@ update-checker==0.18.0
 urllib3==2.2.2
 wcwidth==0.2.13
 websocket-client==1.8.0
+aiohttp

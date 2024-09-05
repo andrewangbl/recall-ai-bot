@@ -1,0 +1,40 @@
+1
+00:00:00,000 --> 00:00:00,940
+Part 2.
+
+2
+00:00:01,040 --> 00:00:02,759
+Continued from part 1
+
+3
+00:00:02,859 --> 00:00:12,199
+In AI news, increased demand for AI and a resurgence in equipment sales have led to predictions of Broadcom exceeding earnings expectations.
+
+4
+00:00:12,299 --> 00:00:16,309
+However, the impact of AI is not without its challenges.
+
+5
+00:00:16,410 --> 00:00:23,050
+The need for careful experimentation, operationalization, governance, and compliance is emphasized.
+
+6
+00:00:23,150 --> 00:00:33,650
+Shifting gears to the chipmaking industry, Intel, backed by the Biden administration, faces challenges in leading the U.S. chipmaking industry due to financial struggles.
+
+7
+00:00:33,750 --> 00:00:43,160
+In other tech news, Sam Altman is building U.S. projects with a global alliance of investors, while Lyft plans to sell part of its bike and scooter business.
+
+8
+00:00:43,260 --> 00:00:53,940
+AI search engine You.com has secured $50 million in funding, with Nvidia among the backers, emphasizing Nvidia's evolution from GPUs to more capabilities.
+
+9
+00:00:54,040 --> 00:00:57,050
+Finally, we look at Elon Musk's companies.
+
+10
+00:00:57,150 --> 00:01:06,610
+Starlink, Musk's internet service provider, faces legal complexities in Brazil, highlighting the vulnerabilities of Musk's interconnected businesses.
+
