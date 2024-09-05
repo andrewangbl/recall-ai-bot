@@ -39,28 +39,24 @@ To use the recall-ai-bot, follow these steps:
 
 5. **Customization**:
    - You can adjust video generation settings in the `autoeditor/generator.py` file:
-   ```
-   python:autoeditor/generator.py
-  startLine: 8
-  endLine: 95
-   ```
-
+     ```python
+     # autoeditor/generator.py
+     # startLine: 8
+     # endLine: 95
+     ```
 
 6. **Monitoring**:
    - To change the time frame for checking new videos, modify the `hours_ago` parameter in the `get_latest_videos_rss` function:
-```
-python:monitor/search.py
-startLine: 7
-endLine: 30
-```
-
+     ```python
+     # monitor/search.py
+     # startLine: 7
+     # endLine: 30
+     ```
 
 7. **Instagram Upload** (Future Feature):
    - Once implemented, the bot will automatically upload generated videos to Instagram using the `reel_upload.py` script.
 
-Note: Ensure you have the necessary permissions and comply with YouTube's and Instagram's terms of service when using this bot.
-
-
+**Note**: Ensure you have the necessary permissions and comply with YouTube's and Instagram's terms of service when using this bot.
 
 ## How It Works
 
