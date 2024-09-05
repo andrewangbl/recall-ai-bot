@@ -128,11 +128,12 @@ async def process_and_generate_video(video_url, clip_generation_mode="combine", 
 
 # Main entry point of the script
 async def main():
-    channel_ids = []
-    with open('monitor/monitor_list.txt', 'r') as file:
-        channel_ids = [line.split(',')[1].strip() for line in file if line.strip()]
+    # channel_ids = []
+    # with open('monitor/monitor_list.txt', 'r') as file:
+    #     channel_ids = [line.split(',')[1].strip() for line in file if line.strip()]
 
-    top_video_urls = await get_top_videos(channel_ids)
+    # top_video_urls = await get_top_videos(channel_ids)
+    top_video_urls =['fake_url']
 
     for url in top_video_urls:
         await process_and_generate_video(url)
