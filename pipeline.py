@@ -141,10 +141,7 @@ async def process_and_generate_video(video_url, bucket_name, clip_generation_mod
     # Generate video for each part of the script
     for i, part_script in enumerate(script_parts, 1):
         # Add part number and continuation text
-        if i == 1:
-            part_script.insert(0, f"Part {i}.")
-        else:
-            part_script.insert(0, f"Part {i}. Continued from part {i-1}")
+        part_script.insert(0, f"Part {i}.")
 
         if i < len(script_parts):
             part_script.append("To be continued in the next video")
@@ -171,8 +168,11 @@ async def main():
     with open('monitor/monitor_list.txt', 'r') as file:
         channel_ids = [line.split(',')[1].strip() for line in file if line.strip()]
 
+    # Set the hours_ago parameter
+    hours_ago = 24  # You can change this value as needed
+
     # Get top video URLs from monitored channels
-    top_video_urls = await get_top_videos(channel_ids)
+    top_video_urls = await get_top_videos(channel_ids, hours_ago)
 
     # Process each video URL
     for url in top_video_urls:

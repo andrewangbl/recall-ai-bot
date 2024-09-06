@@ -1,28 +1,28 @@
 1
-00:00:00,000 --> 00:00:00,820
+00:00:00,000 --> 00:00:00,930
 Part 3.
 
 2
-00:00:00,919 --> 00:00:02,299
-Continued from part 2
+00:00:01,030 --> 00:00:07,370
+AI can enhance patient experience through choice and automation, providing self-service options for basic questions.
 
 3
-00:00:02,399 --> 00:00:10,250
-The 'Ask AI' feature can search through a year's worth of emails and calendar information to answer user questions, significantly reducing search time.
+00:00:07,469 --> 00:00:12,539
+However, tasks requiring complex decision-making may still require human expertise.
 
 4
-00:00:10,349 --> 00:00:18,929
-Founders and CEOs should prioritize increasing productivity through AI implementation, providing the necessary budget and support for adopting new software and tools.
+00:00:12,639 --> 00:00:16,829
+In the future, AI could handle routine cases while humans manage exceptions.
 
 5
-00:00:19,030 --> 00:00:26,470
-AI tools like Loom AI and ChatGPT enhance productivity in creative tasks like writing by providing suggestions and sparking new ideas.
+00:00:16,929 --> 00:00:23,239
+Personalized healthcare, aided by AI, could categorize individuals into phenotypes for tailored treatment.
 
 6
-00:00:26,570 --> 00:00:34,320
-The future of AI features predicts an AI agent that manages inboxes, drafts emails, and even sends fully written emails on a user's behalf.
+00:00:23,339 --> 00:00:27,839
+The main challenge to this vision is the need for more comprehensive and precise data.
 
 7
-00:00:34,420 --> 00:00:39,690
-Check out the full summary using Recall's AI tool, and let's dive into the future of email together!
+00:00:27,940 --> 00:00:33,030
+Visit Recall's official website for the full summary and discover the future of AI in healthcare.
 

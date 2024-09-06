@@ -1,4 +1,2 @@
-Channel: Bloomberg Technology, UCrM7B7SL_g1edFOnmj-SDKg
-Channel: Andrew Huberman, UC2D2CMWXMOVWx7giW1n3LIg
-Channel: 20VC with Harry Stebbings, UCf0PBRjhf0rF8fWBIxTuoWA
-Channel: This Week in Startups, UCkkhmBWfS7pILYIk0izkc3A
+Channel: a16z Podcast, UC9cn0TuPq4dnbTY-CBsm8XA
+Channel: Y Combinator, UCcefcZRL2oaA_uBNeo5UOWg
