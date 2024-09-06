@@ -1,5 +1,5 @@
 import feedparser
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import aiohttp
 import asyncio
 import re
@@ -13,7 +13,7 @@ async def get_latest_videos_rss(channel_id, hours_ago=24):
 
     feed = feedparser.parse(feed_content)
 
-    current_time = datetime.utcnow()
+    current_time = datetime.now(timezone.utc)
     time_threshold = current_time - timedelta(hours=hours_ago)
 
     videos = []
