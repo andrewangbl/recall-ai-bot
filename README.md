@@ -45,23 +45,7 @@ To set up these tables in your AWS account, follow these steps:
 4. Leave other settings as default and click "Create".
 
 #### Managing YouTube Channels
-
-To add, remove, or list YouTube channels in the YouTubeChannelMonitor table, use the functions in `monitor/manage_channels.py`:
-
-- To add a channel:
-  ```python
-  add_channel("YouTubeChannelMonitor", "Channel Name", "UC1234567890")
-  ```
-
-- To remove a channel:
-  ```python
-  remove_channel("YouTubeChannelMonitor", "Channel Name")
-  ```
-
-- To list all channels:
-  ```python
-  list_channels("YouTubeChannelMonitor")
-  ```
+Go to AWS DynamoDB Console, find YouTubeChannelMonitor table, click on Items, and add, remove, or list YouTube channels.
 
 #### Video Processing History
 
