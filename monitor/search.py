@@ -61,10 +61,11 @@ async def find_top_video(channel_id, hours_ago=24):
     print(f"Top video for channel ID {channel_id}: {top_video['url']} with {top_video['views']} views")
     return top_video['url']
 
-async def get_top_videos(channel_ids, hours_ago=24):
-    print(f"Getting top videos for {len(channel_ids)} channels")
-    top_videos = await asyncio.gather(*[find_top_video(channel_id, hours_ago) for channel_id in channel_ids])
-    return [video for video in top_videos if video]
+async def get_top_videos(channel_ids, hours_ago=24, max_videos=5):
+    all_videos = await asyncio.gather(*[find_top_video(channel_id, hours_ago) for channel_id in channel_ids])
+    valid_videos = [video for video in all_videos if video]
+    sorted_videos = sorted(valid_videos, key=lambda x: x[1], reverse=True)  # Sort by view count
+    return [video[0] for video in sorted_videos[:max_videos]]  # Return only the URLs of the top videos
 
 async def get_channel_ids(table_name):
     dynamodb = boto3.resource('dynamodb')
@@ -81,7 +82,8 @@ async def main(table_name):
     print("Starting main function in monitor/search.py")
     channel_ids = await get_channel_ids(table_name)
     print(f"Found {len(channel_ids)} channels to monitor")
-    top_video_urls = await get_top_videos(channel_ids)
+    max_videos = 5  # You can adjust this value as needed
+    top_video_urls = await get_top_videos(channel_ids, hours_ago=24, max_videos=max_videos)
     print(f"Found {len(top_video_urls)} top videos across all monitored channels")
     return top_video_urls
 

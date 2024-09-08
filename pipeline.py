@@ -8,6 +8,8 @@ from recall_api import process_video
 from autoeditor.generator import generate_video
 from monitor import get_top_videos
 from reel_upload import upload_reel_from_s3
+import random
+import time
 
 # Initialize the S3 client
 s3_client = boto3.client('s3')
@@ -96,6 +98,11 @@ async def generate_video_part(part_content, clip_generation_mode, part_number, s
         upload_success = await asyncio.to_thread(upload_reel_from_s3, s3_video_url, part_number)
         if upload_success:
             print(f"Successfully uploaded Part {part_number} to Instagram Reels")
+
+            # Add a random delay after successful upload
+            delay = random.uniform(10, 600)  # Random delay between 10s to 10 minutes
+            print(f"Waiting for {delay:.2f} seconds before processing the next video...")
+            await asyncio.sleep(delay)
         else:
             print(f"Failed to upload Part {part_number} to Instagram Reels")
 
@@ -222,8 +229,11 @@ async def main():
     # Set the minimum character count for video generation
     min_char_count = 800  # You can adjust this value as needed
 
+    # Set the maximum number of videos to process
+    max_videos = 5  # You can adjust this value as needed
+
     # Get top video URLs from monitored channels
-    top_video_urls = await get_top_videos(channel_ids, hours_ago)
+    top_video_urls = await get_top_videos(channel_ids, hours_ago, max_videos)
 
     # Process each video URL
     for url in top_video_urls:

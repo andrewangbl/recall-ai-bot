@@ -257,3 +257,13 @@ Before running the bot, make sure to set up the following folders:
    - This folder will store the generated video reels.
 
 Ensure these folders exist and that the `inputs` folder contains at least one MP4 file before running the bot.
+
+### Random Delay Between Video Uploads
+
+To mimic human behavior and reduce the risk of being identified as a bot, the script implements a random delay between video uploads. This delay is set between 10 seconds to 10 minutes. You can adjust this range in the `pipeline.py` file:
+
+```
+delay = random.uniform(10, 600)  # Random delay between 10s to 10 minutes
+```
+
+This feature helps to make the upload pattern less predictable and more human-like.
