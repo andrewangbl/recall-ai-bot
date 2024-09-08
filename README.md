@@ -1,6 +1,133 @@
-# recall-ai-bot
+# Recall Social Media Bot (Instagram Reel)
 
-## Usage
+
+
+
+## Environment Setup
+
+### AWS Setup
+This project uses two DynamoDB tables and an S3 bucket:
+
+1. **YouTubeChannelMonitor**: Stores information about the YouTube channels being monitored.
+   - Partition key: `channel_name` (String)
+   - Sort key: `channel_id` (String)
+
+2. **VideoProcessingHistory**: Keeps track of processed videos to avoid duplicate processing.
+   - Partition key: `video_url` (String)
+   - Sort key: `processed_at` (String)
+
+3. **S3 Bucket**: Stores the generated videos.
+   - Bucket name: `recall-bot-ig-reel`
+
+#### S3 Bucket Configuration
+To configure the S3 bucket for video uploads, modify the `bucket_name` parameter in the `process_and_generate_video` function call in `pipeline.py`.
+
+Life Cycle Rule: Set up a life cycle rule to delete objects after a certain period to manage storage costs.
+
+#### Setting up DynamoDB Tables
+
+To set up these tables in your AWS account, follow these steps:
+
+1. Log in to the AWS Management Console.
+2. Navigate to the DynamoDB service.
+3. Click on "Create table" for each of the following tables:
+
+##### YouTubeChannelMonitor Table
+- Table name: YouTubeChannelMonitor
+- Partition key: channel_name (String)
+- Sort key: channel_id (String)
+
+##### VideoProcessingHistory Table
+- Table name: VideoProcessingHistory
+- Partition key: video_url (String)
+- Sort key: processed_at (String)
+
+4. Leave other settings as default and click "Create".
+
+#### Managing YouTube Channels
+
+To add, remove, or list YouTube channels in the YouTubeChannelMonitor table, use the functions in `monitor/manage_channels.py`:
+
+- To add a channel:
+  ```python
+  add_channel("YouTubeChannelMonitor", "Channel Name", "UC1234567890")
+  ```
+
+- To remove a channel:
+  ```python
+  remove_channel("YouTubeChannelMonitor", "Channel Name")
+  ```
+
+- To list all channels:
+  ```python
+  list_channels("YouTubeChannelMonitor")
+  ```
+
+#### Video Processing History
+
+The VideoProcessingHistory table is automatically managed by the `pipeline.py` script. It adds entries when videos are processed and checks this table to avoid reprocessing videos.
+
+Ensure your AWS credentials are properly configured to allow the script to interact with these DynamoDB tables.
+
+#### AWS Configuration
+
+Before running the bot, make sure to configure your AWS credentials. Follow these steps:
+
+1. Install the AWS CLI if you haven't already:
+   ```
+   sudo apt install awscli
+   ```
+
+2. Run the following command and enter your AWS credentials when prompted:
+   ```
+   aws configure
+   ```
+
+   You'll need to provide:
+   - AWS Access Key ID
+   - AWS Secret Access Key
+   - Default region name (e.g., us-west-2)
+   - Default output format (you can press Enter to use the default)
+
+3. Ensure that the AWS user associated with these credentials has the necessary permissions to access DynamoDB and S3.
+
+This configuration allows the bot to interact with AWS services, including DynamoDB for storing channel and video processing information, and S3 for uploading generated videos.
+
+### Guide to get Instagram Access Token (https://www.youtube.com/watch?v=D-bF4aVByF4&t=1s)
+1. Convert Personal Instagram Account to Professional Account
+
+2. Get Facebook Business Page Id & save it
+
+3. Link Facebook Page to Instagram Account
+
+4. Generate Facebook Access Token using Instagram API
+
+Permissions: all ig permissions, pages_manage_posts, pages_read_engagement
+
+Select: get token
+
+The access token is valid for 1 hours. To get an extended access token, check the tutorial video.
+
+5. Get Instagram Account Id
+
+{facebook_id}?fields=instagram_business_account&access_token={access_token}
+
+### Folder Setup
+
+Before running the bot, make sure to set up the following folders:
+
+1. Create an `inputs` folder in the root directory:
+   - This folder should contain MP4 files to be used as background videos for the generated reels.
+   - You can download free stock videos from websites like [Pexels](https://www.pexels.com/videos/).
+
+2. Create an `outputs` folder in the root directory:
+   - This folder will store the generated video reels.
+
+Ensure these folders exist and that the `inputs` folder contains at least one MP4 file before running the bot.
+
+
+
+## Instructions to run the bot
 
 To use the recall-ai-bot, follow these steps:
 
@@ -102,7 +229,25 @@ This module handles the generation of video content from the processed scripts, 
 5. autoeditor/editor.py: Manages video editing and composition.
 This class is responsible for combining various elements (background video, subtitles, cover images) into the final video output.
 
-## FRQ or Notes for improvement in the future
+max_videos = 10  # Maximum number of videos to process in one run
+
+This setting limits the number of videos that will be processed in a single execution of the script. You can adjust this value in the `pipeline.py` file if you want to process more or fewer videos per run.
+
+
+
+## Deployment
+Run prior setup and try running the script in the server.
+Schedule script to run on AWS EC2 server every 24 hours using cron.
+```crontab -e```
+add this line:
+```0 0 * * * /usr/bin/python3 /home/ubuntu/recall-ai-bot/pipeline.py >> /home/ubuntu/recall-ai-bot/pipeline.log 2>&1```
+It should run ever 24 hours at midnight on the server local time.
+
+Note: AWS might have risk of ig page being suspended as per our experimentation.
+
+
+
+## FRQ or Notes for Improvement
 
 ### autoeditoer output
 1. to manage autogenerate video audio srt output files path go to autoeditor/generator.py line 69 74.
@@ -131,132 +276,12 @@ This feature helps to filter out videos that might not have enough content for a
 ### Caption and video script generation Prompt Engineering
 change the prompt in recall_api/gpt_summary.py
 
-### To change the Youtube channel to monitor
-edit monitor/monitor_list.txt only.
-
-### S3 Bucket Configuration
-To configure the S3 bucket for video uploads, modify the `bucket_name` parameter in the `process_and_generate_video` function call in `pipeline.py`.
 
 ### Instagram Reel Upload
 The Instagram Reel upload process is handled by the `reel_upload.py` script. To adjust the upload settings or modify the caption format, edit this file.
 
 ### Video Part Naming in S3
 Videos are now stored in S3 with unique identifiers based on the YouTube video ID. This prevents overwriting when uploading multiple series of video summaries. The naming convention is `videos/{youtube_video_id}_p{part_number}.mp4`.
-
-
-## Guide to get Instagram Access Token
-1. Convert Personal Instagram Account to Professional Account
-
-2. Get Facebook Business Page Id & save it
-
-3. Link Facebook Page to Instagram Account
-
-4. Generate Facebook Access Token using Instagram API
-
-Permissions: all ig permissions, pages_manage_posts, pages_read_engagement
-
-Select: get token
-
-
-copy access token (it only last for 1 hours)
-
-5. Get Instagram Account Id
-
-{facebook_id}?fields=instagram_business_account&access_token={access_token}
-
-## DynamoDB Tables
-
-This project uses two DynamoDB tables:
-
-1. **YouTubeChannelMonitor**: Stores information about the YouTube channels being monitored.
-   - Partition key: `channel_name` (String)
-   - Sort key: `channel_id` (String)
-
-2. **VideoProcessingHistory**: Keeps track of processed videos to avoid duplicate processing.
-   - Partition key: `video_url` (String)
-   - Sort key: `processed_at` (String)
-
-### Setting up DynamoDB Tables
-
-To set up these tables in your AWS account, follow these steps:
-
-1. Log in to the AWS Management Console.
-2. Navigate to the DynamoDB service.
-3. Click on "Create table" for each of the following tables:
-
-#### YouTubeChannelMonitor Table
-- Table name: YouTubeChannelMonitor
-- Partition key: channel_name (String)
-- Sort key: channel_id (String)
-
-#### VideoProcessingHistory Table
-- Table name: VideoProcessingHistory
-- Partition key: video_url (String)
-- Sort key: processed_at (String)
-
-4. Leave other settings as default and click "Create".
-
-### Managing YouTube Channels
-
-To add, remove, or list YouTube channels in the YouTubeChannelMonitor table, use the functions in `monitor/manage_channels.py`:
-
-- To add a channel:
-  ```python
-  add_channel("YouTubeChannelMonitor", "Channel Name", "UC1234567890")
-  ```
-
-- To remove a channel:
-  ```python
-  remove_channel("YouTubeChannelMonitor", "Channel Name")
-  ```
-
-- To list all channels:
-  ```python
-  list_channels("YouTubeChannelMonitor")
-  ```
-
-### Video Processing History
-
-The VideoProcessingHistory table is automatically managed by the `pipeline.py` script. It adds entries when videos are processed and checks this table to avoid reprocessing videos.
-
-Ensure your AWS credentials are properly configured to allow the script to interact with these DynamoDB tables.
-
-### AWS Configuration
-
-Before running the bot, make sure to configure your AWS credentials. Follow these steps:
-
-1. Install the AWS CLI if you haven't already:
-   ```
-   sudo apt install awscli
-   ```
-
-2. Run the following command and enter your AWS credentials when prompted:
-   ```
-   aws configure
-   ```
-
-   You'll need to provide:
-   - AWS Access Key ID
-   - AWS Secret Access Key
-   - Default region name (e.g., us-west-2)
-   - Default output format (you can press Enter to use the default)
-
-3. Ensure that the AWS user associated with these credentials has the necessary permissions to access DynamoDB and S3.
-
-This configuration allows the bot to interact with AWS services, including DynamoDB for storing channel and video processing information, and S3 for uploading generated videos.
-
-### Folder Setup
-
-Before running the bot, make sure to set up the following folders:
-
-1. Create an `inputs` folder in the root directory:
-   - This folder should contain MP4 files to be used as background videos for the generated reels.
-   - You can download free stock videos from websites like [Pexels](https://www.pexels.com/videos/).
-
-2. Create an `outputs` folder in the root directory:
-   - This folder will store the generated video reels.
-
-Ensure these folders exist and that the `inputs` folder contains at least one MP4 file before running the bot.
 
 ### Random Delay Between Video Uploads
 
@@ -267,13 +292,3 @@ delay = random.uniform(10, 600)  # Random delay between 10s to 10 minutes
 ```
 
 This feature helps to make the upload pattern less predictable and more human-like.
-
-# Deployment
-Run prior setup and try running the script in the server.
-Schedule script to run on AWS EC2 server every 24 hours using cron.
-```crontab -e```
-add this line:
-```0 0 * * * /usr/bin/python3 /home/ubuntu/recall-ai-bot/pipeline.py >> /home/ubuntu/recall-ai-bot/pipeline.log 2>&1```
-It should run ever 24 hours at midnight on the server local time. 
-
-Note: AWS might have risk of ig page being suspended as per our experimentation.
