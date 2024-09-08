@@ -267,3 +267,11 @@ delay = random.uniform(10, 600)  # Random delay between 10s to 10 minutes
 ```
 
 This feature helps to make the upload pattern less predictable and more human-like.
+
+# Deployment
+Run prior setup and try running the script in the server.
+Schedule script to run on AWS EC2 server every 24 hours using cron.
+```crontab -e```
+add this line:
+```0 0 * * * /usr/bin/python3 /home/ubuntu/recall-ai-bot/pipeline.py >> /home/ubuntu/recall-ai-bot/pipeline.log 2>&1```
+It should run ever 24 hours at midnight on the server local time. 
