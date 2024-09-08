@@ -220,3 +220,40 @@ To add, remove, or list YouTube channels in the YouTubeChannelMonitor table, use
 The VideoProcessingHistory table is automatically managed by the `pipeline.py` script. It adds entries when videos are processed and checks this table to avoid reprocessing videos.
 
 Ensure your AWS credentials are properly configured to allow the script to interact with these DynamoDB tables.
+
+### AWS Configuration
+
+Before running the bot, make sure to configure your AWS credentials. Follow these steps:
+
+1. Install the AWS CLI if you haven't already:
+   ```
+   sudo apt install awscli
+   ```
+
+2. Run the following command and enter your AWS credentials when prompted:
+   ```
+   aws configure
+   ```
+
+   You'll need to provide:
+   - AWS Access Key ID
+   - AWS Secret Access Key
+   - Default region name (e.g., us-west-2)
+   - Default output format (you can press Enter to use the default)
+
+3. Ensure that the AWS user associated with these credentials has the necessary permissions to access DynamoDB and S3.
+
+This configuration allows the bot to interact with AWS services, including DynamoDB for storing channel and video processing information, and S3 for uploading generated videos.
+
+### Folder Setup
+
+Before running the bot, make sure to set up the following folders:
+
+1. Create an `inputs` folder in the root directory:
+   - This folder should contain MP4 files to be used as background videos for the generated reels.
+   - You can download free stock videos from websites like [Pexels](https://www.pexels.com/videos/).
+
+2. Create an `outputs` folder in the root directory:
+   - This folder will store the generated video reels.
+
+Ensure these folders exist and that the `inputs` folder contains at least one MP4 file before running the bot.
