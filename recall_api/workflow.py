@@ -9,26 +9,31 @@ async def process_video(video_url):
     # Create operation_data directory if it doesn't exist
     os.makedirs("operation_data", exist_ok=True)
 
-    # Step 1: Fetch data from Recall API
-    raw_data = await asyncio.to_thread(fetch_recall_data, video_url)
-    if not raw_data:
-        return None
+    try:
+        # Step 1: Fetch data from Recall API
+        raw_data = await asyncio.to_thread(fetch_recall_data, video_url)
+        if not raw_data:
+            print(f"Failed to fetch data for video: {video_url}")
+            return None, None
 
-    # Step 2: Parse the raw data into structured summary
-    structured_summary = parse_recall_summary(raw_data, video_url)
+        # Step 2: Parse the raw data into structured summary
+        structured_summary = parse_recall_summary(raw_data, video_url)
 
-    # Save structured summary
-    with open("operation_data/structured_summary.json", "w") as f:
-        json.dump(structured_summary, f, indent=2)
+        # Save structured summary
+        with open("operation_data/structured_summary.json", "w") as f:
+            json.dump(structured_summary, f, indent=2)
 
-    # Step 3: Generate enhanced summary using GPT
-    enhanced_summary = await asyncio.to_thread(generate_enhanced_summary, structured_summary)
+        # Step 3: Generate enhanced summary using GPT
+        enhanced_summary = await asyncio.to_thread(generate_enhanced_summary, structured_summary)
 
-    # Save enhanced summary
-    with open("operation_data/enhanced_summary.json", "w") as f:
-        json.dump(enhanced_summary, f, indent=2)
+        # Save enhanced summary
+        with open("operation_data/enhanced_summary.json", "w") as f:
+            json.dump(enhanced_summary, f, indent=2)
 
-    return enhanced_summary
+        return enhanced_summary, video_url
+    except Exception as e:
+        print(f"Error processing video {video_url}: {str(e)}")
+        return None, None
 
 # Usage
 if __name__ == "__main__":

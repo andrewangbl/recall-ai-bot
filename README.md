@@ -122,6 +122,16 @@ autoeditor/generator.py line 50
 ### Adjust the length of separate video parts
 pipeline.py line 25 char_limit and upper_limit
 
+### Minimum Character Count for Video Generation
+
+To ensure that only substantial content is processed into videos, a minimum character count check has been implemented. Videos with summaries shorter than the specified character count will be skipped. You can adjust this setting in the `pipeline.py` file:
+```python
+# Set the minimum character count for video generation
+min_char_count = 800  # You can adjust this value as needed
+```
+
+This feature helps to filter out videos that might not have enough content for a meaningful summary or Reel.
+
 ### Caption and video script generation Prompt Engineering
 change the prompt in recall_api/gpt_summary.py
 
@@ -136,3 +146,81 @@ The Instagram Reel upload process is handled by the `reel_upload.py` script. To 
 
 ### Video Part Naming in S3
 Videos are now stored in S3 with unique identifiers based on the YouTube video ID. This prevents overwriting when uploading multiple series of video summaries. The naming convention is `videos/{youtube_video_id}_p{part_number}.mp4`.
+
+
+## Guide to get Instagram Access Token
+1. Convert Personal Instagram Account to Professional Account
+
+2. Get Facebook Business Page Id & save it
+
+3. Link Facebook Page to Instagram Account
+
+4. Generate Facebook Access Token using Instagram API
+
+Permissions: all ig permissions, pages_manage_posts, pages_read_engagement
+
+Select: get token
+
+
+copy access token (it only last for 1 hours)
+
+5. Get Instagram Account Id
+
+{facebook_id}?fields=instagram_business_account&access_token={access_token}
+
+## DynamoDB Tables
+
+This project uses two DynamoDB tables:
+
+1. **YouTubeChannelMonitor**: Stores information about the YouTube channels being monitored.
+   - Partition key: `channel_name` (String)
+   - Sort key: `channel_id` (String)
+
+2. **VideoProcessingHistory**: Keeps track of processed videos to avoid duplicate processing.
+   - Partition key: `video_url` (String)
+   - Sort key: `processed_at` (String)
+
+### Setting up DynamoDB Tables
+
+To set up these tables in your AWS account, follow these steps:
+
+1. Log in to the AWS Management Console.
+2. Navigate to the DynamoDB service.
+3. Click on "Create table" for each of the following tables:
+
+#### YouTubeChannelMonitor Table
+- Table name: YouTubeChannelMonitor
+- Partition key: channel_name (String)
+- Sort key: channel_id (String)
+
+#### VideoProcessingHistory Table
+- Table name: VideoProcessingHistory
+- Partition key: video_url (String)
+- Sort key: processed_at (String)
+
+4. Leave other settings as default and click "Create".
+
+### Managing YouTube Channels
+
+To add, remove, or list YouTube channels in the YouTubeChannelMonitor table, use the functions in `monitor/manage_channels.py`:
+
+- To add a channel:
+  ```python
+  add_channel("YouTubeChannelMonitor", "Channel Name", "UC1234567890")
+  ```
+
+- To remove a channel:
+  ```python
+  remove_channel("YouTubeChannelMonitor", "Channel Name")
+  ```
+
+- To list all channels:
+  ```python
+  list_channels("YouTubeChannelMonitor")
+  ```
+
+### Video Processing History
+
+The VideoProcessingHistory table is automatically managed by the `pipeline.py` script. It adds entries when videos are processed and checks this table to avoid reprocessing videos.
+
+Ensure your AWS credentials are properly configured to allow the script to interact with these DynamoDB tables.

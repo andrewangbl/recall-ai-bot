@@ -1,28 +1,56 @@
 1
-00:00:00,000 --> 00:00:00,930
-Part 3.
+00:00:00,000 --> 00:00:00,710
+Part 1.
 
 2
-00:00:01,030 --> 00:00:07,370
-AI can enhance patient experience through choice and automation, providing self-service options for basic questions.
+00:00:00,809 --> 00:00:00,809
+Introducing the enlightening YouTube video, 'Is your voice ruining your life?' This quick summary is brought to you by Recall.
 
 3
-00:00:07,469 --> 00:00:12,539
-However, tasks requiring complex decision-making may still require human expertise.
+00:00:00,909 --> 00:00:02,179
+Your voice holds power.
 
 4
-00:00:12,639 --> 00:00:16,829
-In the future, AI could handle routine cases while humans manage exceptions.
+00:00:02,279 --> 00:00:03,969
+It shapes how people perceive you.
 
 5
-00:00:16,929 --> 00:00:23,239
-Personalized healthcare, aided by AI, could categorize individuals into phenotypes for tailored treatment.
+00:00:04,069 --> 00:00:05,909
+It influences your relationships.
 
 6
-00:00:23,339 --> 00:00:27,839
-The main challenge to this vision is the need for more comprehensive and precise data.
+00:00:06,009 --> 00:00:07,649
+It can even impact your success.
 
 7
-00:00:27,940 --> 00:00:33,030
-Visit Recall's official website for the full summary and discover the future of AI in healthcare.
+00:00:07,749 --> 00:00:10,349
+But, are you aware of your voice's influence?
+
+8
+00:00:10,449 --> 00:00:13,239
+Many of us neglect this crucial aspect of communication.
+
+9
+00:00:13,339 --> 00:00:20,000
+Let's delve deeper into the significance of your voice, its influence, and how it might be affecting your life in ways you've never imagined.
+
+10
+00:00:20,100 --> 00:00:22,080
+Unlock the full potential of your voice.
+
+11
+00:00:22,180 --> 00:00:23,550
+Understand its impact.
+
+12
+00:00:23,650 --> 00:00:24,730
+Embrace its power.
+
+13
+00:00:24,830 --> 00:00:26,320
+We've just scratched the surface.
+
+14
+00:00:26,420 --> 00:00:30,970
+To explore more, check out the full summary of this engaging video using Recall's AI tool.
 

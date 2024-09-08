@@ -3,6 +3,8 @@ from datetime import datetime, timedelta, timezone
 import aiohttp
 import asyncio
 import re
+import boto3
+from botocore.exceptions import ClientError
 
 async def get_latest_videos_rss(channel_id, hours_ago=24):
     print(f"Fetching RSS feed for channel ID: {channel_id}")
@@ -18,7 +20,7 @@ async def get_latest_videos_rss(channel_id, hours_ago=24):
 
     videos = []
     for entry in feed.entries:
-        published_time = datetime(*entry.published_parsed[:6])
+        published_time = datetime(*entry.published_parsed[:6], tzinfo=timezone.utc)
         if published_time > time_threshold:
             video_id = entry.yt_videoid
             videos.append({
@@ -64,17 +66,26 @@ async def get_top_videos(channel_ids, hours_ago=24):
     top_videos = await asyncio.gather(*[find_top_video(channel_id, hours_ago) for channel_id in channel_ids])
     return [video for video in top_videos if video]
 
-async def main():
-    print("Starting main function in monitor/search.py")
-    with open('monitor/monitor_list.txt', 'r') as file:
-        channel_ids = [line.split(',')[1].strip() for line in file if line.strip()]
+async def get_channel_ids(table_name):
+    dynamodb = boto3.resource('dynamodb')
+    table = dynamodb.Table(table_name)
+    try:
+        response = await asyncio.to_thread(table.scan)
+        items = response['Items']
+        return [item['channel_id'] for item in items]
+    except ClientError as e:
+        print(f"Error fetching channel IDs from DynamoDB: {e}")
+        return []
 
+async def main(table_name):
+    print("Starting main function in monitor/search.py")
+    channel_ids = await get_channel_ids(table_name)
     print(f"Found {len(channel_ids)} channels to monitor")
     top_video_urls = await get_top_videos(channel_ids)
     print(f"Found {len(top_video_urls)} top videos across all monitored channels")
     return top_video_urls
 
 if __name__ == "__main__":
-    top_videos = asyncio.run(main())
+    top_videos = asyncio.run(main("YouTubeChannelMonitor"))
     for url in top_videos:
         print(url)

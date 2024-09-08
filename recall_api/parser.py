@@ -34,7 +34,7 @@ def parse_recall_summary(summary, video_url):
             # Bullet point
             bullet_point = line[2:]
             match = re.search(r'(.*) \[(.*?)\]\((.*?)\)', bullet_point)
-            if match:
+            if match and current_section is not None:
                 text = match.group(1).strip()
                 structured_summary["summary"][current_section].append(text)
 

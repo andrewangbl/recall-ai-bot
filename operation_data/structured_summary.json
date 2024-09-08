@@ -1,74 +1,9 @@
 {
-  "title": "Implementation, Data, Impact of Healthcare AI with Julie and Vijay",
-  "cover": "https://img.youtube.com/vi/1043vBuC_-w/maxresdefault.jpg",
+  "title": "Is your voice ruining your life? ",
+  "cover": "https://i.ytimg.com/vi/VlurIC9A1Bw/oar2.jpg?sqp=-oaymwEkCJUDENAFSFqQAgHyq4qpAxMIARUAAAAAJQAAyEI9AICiQ3gB&rs=AOn4CLAmMXG2iMwIxiZLXHLSxg-1GShPVw",
   "tags": [
-    "Artificial intelligence",
-    "Vijay S. Pande",
-    "YouTube",
-    "1890s"
+    "YouTube"
   ],
-  "summary": {
-    "Intro": [],
-    "Overview of three clusters of Part 1 questions: cost, data, and patient experience": [
-      "A previous conversation about the significant challenges facing healthcare driven by artificial intelligence (AI) took place a few months prior.",
-      "This conversation resulted in numerous excellent responses, inquiries, and observations.",
-      "Three primary categories of questions emerged from the previous conversation."
-    ],
-    "Vijay Pande discusses AI's potential to lower healthcare costs": [
-      "AI could potentially reduce healthcare costs by decreasing the time and labor required from healthcare professionals.",
-      "AI could lower healthcare costs by improving preventative care and reducing hospitalizations and readmissions.",
-      "AI could reduce healthcare costs by minimizing expensive mistakes, similar to how AI sales agents are more cost-effective than human sales representatives."
-    ],
-    "Julie Yoo examines the impact of AI on cost structure and labor": [
-      "AI agents are more cost-effective than human counterparts because they do not require salaries, benefits, or overhead.",
-      "AI agents are more effective at lead generation and qualification compared to humans.",
-      "AI agents require significantly less ramp-up time compared to human workers, leading to lower training costs and faster iteration cycles."
-    ],
-    "Challenges in reducing healthcare costs in America": [
-      "Healthcare spending could be reduced while maintaining performance levels, presenting a significant opportunity for cost savings.",
-      "The inelastic demand for healthcare, driven by the need to care for loved ones regardless of cost, poses a challenge to reducing costs.",
-      "Shifting the focus from reactive \"sick care\" to proactive prevention is crucial for bending the healthcare cost curve, although achieving this shift remains a challenge."
-    ],
-    "The role of AI in shifting from sick care to preventative care": [
-      "The high cost of healthcare is attributed to the vast number of services provided, with labor being the primary driver of these costs.",
-      "AI has the potential to significantly reduce healthcare costs by automating tasks, enabling product innovation, and shifting from bespoke services to more standardized solutions.",
-      "The efficacy and value provided by AI products are crucial, as patients are increasingly dissatisfied with the rising costs and perceived lack of commensurate value in the healthcare system."
-    ],
-    "Financial incentives and barriers to AI adoption among clinicians": [
-      "Financial incentives may not be the primary motivator for clinicians to adopt AI, as many are driven by the desire to provide optimal patient care.",
-      "Offering AI tools that improve workflow efficiency and patient experience can be a significant incentive for adoption, as it allows clinicians to focus on patient care and reduces administrative burdens.",
-      "Healthcare organizations are increasingly using AI tools as a recruitment and retention strategy, attracting talent by positioning themselves as forward-thinking and offering a more desirable work environment."
-    ],
-    "Emotional and practical aspects driving AI adoption in healthcare": [
-      "The widespread adoption of AI in healthcare hinges on its ability to demonstrate a significant, positive impact on patients' lives, akin to a \"10x improvement,\" rather than just incremental advancements.",
-      "The potential for AI tools, such as advanced clinical decision support systems, to revolutionize healthcare delivery by providing clinicians with readily accessible, specialist-level insights is acknowledged.",
-      "The discussion explores the regulatory future of AI agents in healthcare, questioning whether they will be subject to existing pathways for medical devices or potentially necessitate entirely new regulatory frameworks."
-    ],
-    "The importance of data sharing and the role of AI in healthcare innovation": [
-      "Sharing data is important for the development of AI, but there are questions about data ownership and value.",
-      "Instead of relying on existing data like EMRs, which may not be suitable for training AI, a more effective approach could involve generating new data specifically for AI training.",
-      "While some companies focus on helping organizations monetize their existing data assets, there's a need to generate new, more comprehensive datasets that better represent real-life patient journeys and are more suitable for training AI models."
-    ],
-    "The data advantage (or lack thereof) of legacy healthcare companies": [
-      "Legacy healthcare companies may not have as much of a data advantage in the age of AI as they believe.",
-      "While these companies possess large amounts of data, it may not be as high-quality as the data generated by prospective tools used by a larger workforce.",
-      "There are significant cultural differences between AI companies and traditional healthcare service companies, which could make it difficult for the latter to transition into the former."
-    ],
-    "Balancing AI-driven recommendations with clinician expertise": [
-      "The optimal balance between AI-driven recommendations and clinician expertise will likely involve computers handling tasks that are data-heavy, similar to how financial calculations transitioned from being done manually to being computer-based.",
-      "The human element will remain crucial in medicine, with clinicians providing context, sensibility, and ensuring alignment with broader goals, similar to how financial advisors still exist despite the automation of financial calculations.",
-      "Current AI tools often offer choice to both doctors and patients, allowing doctors to use, modify, or override AI-generated answers and patients to choose between interacting with AI, a doctor, or a combination of both."
-    ],
-    "The role of AI in enhancing patient experience through choice and automation": [
-      "AI can provide patients with the choice to use self-service options for basic questions, reducing wait times and improving efficiency.",
-      "Transparency about whether a patient is interacting with an AI or a human is crucial for building trust and improving the patient experience.",
-      "While AI can automate many aspects of healthcare, tasks requiring complex decision-making and patient-specific considerations, such as neurosurgery, may still require human expertise."
-    ],
-    "Long-term vision for AI in personalized and preventative healthcare": [
-      "The future of healthcare will likely involve AI handling routine cases and humans managing exceptions.",
-      "Personalized healthcare, aided by AI, will likely analyze individual data, including wearables and physiological data, to categorize individuals into phenotypes for tailored treatment.",
-      "The main barrier to achieving this vision is the need for more comprehensive and precise data, including physiological and behavioral information, to improve signal-to-noise ratio and enable AI to identify useful patterns for actionable insights."
-    ]
-  },
-  "video_url": "https://www.youtube.com/watch?v=1043vBuC_-w"
+  "summary": {},
+  "video_url": "https://www.youtube.com/watch?v=VlurIC9A1Bw"
 }

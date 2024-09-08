@@ -47,7 +47,7 @@ def generate_video(input_json_path, clip_generation_mode="normal", part_number=1
         for sentence in sentences:
             filename = f"outputs/temp_audio_{index}.mp3"
             try:
-                tts(sentence, selected_voice, filename, 1.25)
+                tts(sentence, selected_voice, filename, 1.30)
                 duration = get_duration(filename)
 
                 audio_segments.append((sentence, duration))
