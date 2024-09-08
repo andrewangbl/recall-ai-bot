@@ -85,10 +85,6 @@ The recall-ai-bot operates through the following process:
 
 This automated process allows for efficient creation and distribution of content, transforming YouTube videos into engaging Instagram Reels with minimal manual intervention.
 
-## Next Development we need to finish this for MVP
-
-The final step of uploading to AWS S3 and posting to Instagram is currently under development. Once implemented, this feature will complete the automation pipeline, allowing for seamless content distribution from YouTube to Instagram Reels.
-
 ## Key Components
 
 1. pipeline.py: The main orchestrator of the entire process.
